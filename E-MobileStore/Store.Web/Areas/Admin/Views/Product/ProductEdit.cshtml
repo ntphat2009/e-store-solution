@@ -1,114 +1,11 @@
-﻿@{
+﻿﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_EmtyLayout.cshtml";
     ViewData["Title"] = "Thêm sản phẩm";
-    Layout = null;
     var CountImageExisted = ViewBag.ProductInfo.ProductImages.Count;
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Store.WebAdmin</title>
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-        ============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-        ============================================ -->
-    <link href="~/css/admin/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap CSS
-        ============================================ -->
-    <link href="~/css/admin/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- nalika Icon CSS
-        ============================================ -->
-    <link href="~/css/admin/css/nalika-icon.css" rel="stylesheet" />
-    <!-- owl.carousel CSS
-        ============================================ -->
-    <link href="~/css/admin/css/owl.carousel.css" rel="stylesheet" />
-    <link href="~/css/admin/css/owl.theme.css" rel="stylesheet" />
-    <link href="~/css/admin/css/owl.transitions.css" rel="stylesheet" />
-    <!-- animate CSS
-        ============================================ -->
-    <link href="~/css/admin/css/animate.css" rel="stylesheet" />
-    <!-- normalize CSS
-        ============================================ -->
-    <link href="~/css/admin/css/normalize.css" rel="stylesheet" />
-    <!-- meanmenu icon CSS
-        ============================================ -->
-    <link href="~/css/admin/css/meanmenu.min.css" rel="stylesheet" />
-    <!-- main CSS
-        ============================================ -->
-    <link href="~/css/admin/css/main.css" rel="stylesheet" />
-    <!-- morrisjs CSS
-        ============================================ -->
-    <link href="~/css/admin/css/morrisjs/morris.css" rel="stylesheet" />
-    <!-- mCustomScrollbar CSS
-        ============================================ -->
-    <link href="~/css/admin/css/scrollbar/jquery.mcustomscrollbar.min.css" rel="stylesheet" />
-    <!-- metisMenu CSS
-        ============================================ -->
-    <link href="~/css/admin/css/metismenu/metismenu.min.css" rel="stylesheet" />
-    <link href="~/css/admin/css/metismenu/metismenu-vertical.css" rel="stylesheet" />
-    <!-- calendar CSS
-        ============================================ -->
-    <link href="~/css/admin/css/calendar/fullcalendar.min.css" rel="stylesheet" />
-    <link href="~/css/admin/css/calendar/fullcalendar.print.min.css" rel="stylesheet" />
-    <!-- style CSS
-        ============================================ -->
-    <!-- responsive CSS
-        ============================================ -->
-    <link href="~/css/admin/css/responsive.css" rel="stylesheet" />
-    <!-- modernizr JS
-        ============================================ -->
-    <link href="~/assets/vendor/ckeditor5.css" rel="stylesheet" />
-    <link href="~/css/admin/css/style.css" rel="stylesheet" />
-    <script src="~/js/admin/js/vendor/modernizr-2.8.3.min.js"></script>
-</head>
-
-<body>
-    <style>
-        .ck-editor__editable {
-            position: relative;
-            z-index: 0;
-        }
-        .ck-editor__main {
-            position: relative;
-            z-index: 0;
-        }
-    </style>
-    <div class="breadcome-area" style="margin-left:20px">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="breadcome-list">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <div class="breadcomb-wp">
-                                    <div class="breadcomb-icon">
-                                        <i class="icon nalika-home"></i>
-                                    </div>
-                                    <div class="breadcomb-ctn">
-                                        <h2>@ViewData["Title"]</h2>
-                                        <p>Welcome to FFShop <span class="bread-ntd">Admin Template</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <div class="breadcomb-report">
-                                    <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i class="icon nalika-download"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="single-product-tab-area mg-b-30" style="margin-left:20px">
+    <div class="single-product-tab-area mg-b-30">
         <div class="single-pro-review-area">
-            <form action="/quan-li-san-pham/cap-nhat-san-pham" method="post" id="">
-
+        <form action="/quan-li-san-pham/cap-nhat-san-pham" method="post" enctype="multipart/form-data" id="">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -163,9 +60,9 @@
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon">Ngành hàng</span>
                                                         <select name="CategoryId" class="form-control pro-edt-select form-control-primary">
-                                                            @if (ViewBag.CategoryList != null)
+                                                        @if (ViewBag.CategoryListt != null)
                                                             {
-                                                                foreach (var category in ViewBag.CategoryList)
+                                                            foreach (var category in ViewBag.CategoryListt)
                                                                 {
                                                                     <option value="@category.Id" @(category.Id == ViewBag.ProductInfo.CategoryId ? "selected" : "")>@category.Name</option>
                                                                 }
@@ -174,8 +71,9 @@
                                                     </div>
 
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon">Được thêm bởi</span>
-                                                        <input type="text" name="CreatedBy" value="@ViewBag.ProductInfo.CreatedBy" class="form-control" placeholder="Được thêm bởi">
+                                                        <span class="input-group-addon">Được cập nhập bởi</span>
+                                                        <input type="hidden" name="CreatedBy" value="@ViewBag.ProductInfo.CreatedBy" class="form-control" placeholder="Được thêm bởi">
+                                                        <input type="text" name="UpdatedBy" value="@ViewBag.ProductInfo.CreatedBy" class="form-control" placeholder="Được cập nhập bởi">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon">Trạng thái</span>
@@ -205,7 +103,7 @@
                                                                     <div id="dropzone">
                                                                         <div class="input-group">
                                                                             <div class="input-group-append">
-                                                                                <img id="imgPreview_@(i)" src="@image.ImageURL" alt="Preview Image" style="width:100%; height:auto; display:none;" />
+                                                                            <img id="imgPreview_@(i)" class="lazyload" src="@Url.Content("~/uploads/images/" + @image.ImageURL)" alt="Preview Image" style="width:100%; height:auto; display:none;" />
                                                                                 <input name="Images[@i].ImageUrl" type="hidden" class="text-light" value="@image.ImageURL" />
                                                                                 <input style="color:white" name="Images[@i].ImageUrl" type="file" class="text-light" value="@image.ImageURL" id="insertImage_@i" />
                                                                             </div>
@@ -245,27 +143,24 @@
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-lg-3">
+                                                                       @*  <div class="col-lg-3">
                                                                             <div class="product-edt-remove" style="float:right;">
-                                                                                <button type="button" id="remove_0" class="btn btn-ctl-bt waves-effect waves-light" style="background-color:red">
+                                                                                <button type="button" id="remove_@i" class="btn btn-ctl-bt waves-effect waves-light" style="background-color:red">
                                                                                     Remove
                                                                                     <i class="fa fa-times" aria-hidden="true"></i>
                                                                                 </button>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> *@
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             i++;
                                                         }
                                                     }
-                                                   
-
-
                                                 </div>
                                                 <div>
                                                     <div class="product-edt-remove">
-                                                        <button id="insertMore" type="button" class="btn btn-ctl-bt waves-effect waves-light">
+                                                        <button id="insertMoreEdit" type="button" class="btn btn-ctl-bt waves-effect waves-light">
                                                             Tải thêm ảnh
                                                             <i class="fa-solid fa-plus"></i>
                                                         </button>
@@ -284,201 +179,10 @@
             </form>
         </div>
     </div>
-    <!-- jquery
-        ============================================ -->
-    <script src="~/js/admin/js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap JS
-        ============================================ -->
-    <script src="~/js/admin/js/bootstrap.min.js"></script>
-    <!-- wow JS
-        ============================================ -->
-    <script src="~/js/admin/js/wow.min.js"></script>
-    <!-- price-slider JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery-price-slider.js"></script>
-    <!-- meanmenu JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery.meanmenu.js"></script>
-    <!-- owl.carousel JS
-        ============================================ -->
-    <script src="~/js/admin/js/owl.carousel.min.js"></script>
-    <!-- sticky JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery.sticky.js"></script>
-    <!-- scrollUp JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery.scrollup.min.js"></script>
-    <!-- mCustomScrollbar JS
-        ============================================ -->
-    <script src="~/js/admin/js/scrollbar/jquery.mcustomscrollbar.concat.min.js"></script>
-    <script src="~/js/admin/js/scrollbar/mcustomscrollbar-active.js"></script>
-    <!-- metisMenu JS
-        ============================================ -->
-    <script src="~/js/admin/js/metismenu/metismenu.min.js"></script>
-    <script src="~/js/admin/js/metismenu/metismenu-active.js"></script>
-    <!-- morrisjs JS
-        ============================================ -->
-    <script src="~/js/admin/js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="~/js/admin/js/sparkline/jquery.charts-sparkline.js"></script>
-    <!-- calendar JS
-        ============================================ -->
-    <script src="~/js/admin/js/calendar/moment.min.js"></script>
-    <script src="~/js/admin/js/calendar/fullcalendar.min.js"></script>
-    <script src="~/js/admin/js/calendar/fullcalendar-active.js"></script>
-    <!-- tab JS
-        ============================================ -->
-    <script src="~/js/admin/js/tab.js"></script>
-    <!-- plugins JS
-        ============================================ -->
-    <script src="~/js/admin/js/plugins.js"></script>
-    <!-- main JS
-        ============================================ -->
-    <script src="~/js/admin/js/main.js"></script>
-    <script src="~/ckfinder/ckfinder.js"></script>
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-            }
-        }
-    </script>
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Bold,
-            Italic,
-            Font,
-            Paragraph,
-            Image,
-            ImageCaption,
-            ImageResize,
-            ImageStyle,
-            ImageToolbar,
-            LinkImage,
-            Link
-        } from 'ckeditor5';
-        ClassicEditor
-            .create(document.querySelector('#txtDescription'), {
-                plugins: [
-                    Essentials, Bold, Italic, Font, Paragraph,
-                    Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, LinkImage, Link
-                ],
-                toolbar: [
-                    'insertImage', 'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|'
-                ],
-                image: {
-                    insert: {
-                        type: 'auto'
-                    }
-                }
-            })
-            .then(editor => {
-                console.log('Editor was initialized', editor);
-                document.querySelector('form').addEventListener('submit', (event) => {
-                    const data = editor.getData(); // Lấy dữ liệu từ editor
-                    document.querySelector('#txtDescription').value = data; // Gán vào trường ẩn
-                });
-            })
-            .catch(error => {
-                console.error('There was a problem initializing the editor.', error);
-            });
-    </script>
+    <script src="~/js/admin/js/product.js"></script>
     <script type="text/javascript">
-        let formCount = -1;
-
-        function reassignFormIds() {
-            const forms = document.querySelectorAll('[id^="form_"]');
-            forms.forEach((form, index) => {
-                // Re-index form
-                form.id = `form_${index}`;
-
-                // Assign id and name to inputs
-                const inputs = form.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    input.name = input.name.replace(/Images\[\d+\]/, `Images[${index}]`);
-                    if (input.id) {
-                        input.id = input.id.replace(/_\d+/, `_${index}`);
-                    }
-                });
-
-                // Assign id to remove button
-                const removeButton = form.querySelector('[id^="remove_"]');
-                if (removeButton) {
-                    removeButton.id = `remove_${index}`;
-                }
-            });
-            // Update formCount to the current number of forms
-            formCount = forms.length - 1;
-            const imgPreview = document.querySelectorAll('[id^="imgPreview_"]');
-            imgPreview.forEach((img, index) => {
-                // Re-index imgPreview_$
-                img.id = `imgPreview_${index}`;
-            });
-        }
-
-        document.getElementById('insertMore').addEventListener('click', function () {
-            reassignFormIds();
-            formCount++;
-            const newForm = `
-                <div class="row imageform" id="form_${formCount}">
-                    <div class="col-lg-3">
-                        <div id="dropzone">
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <img id="imgPreview_${formCount}" src="" alt="Preview Image" style="width:100%; height:auto; display:none;" />
-                                    <input style="color:white" name="Images[${formCount}].ImageUrl" type="file" class="text-light" id="insertImage_${formCount}" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9">
-                        <div class="row">
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon">TT</span>
-                                    <input type="text" name="Images[${formCount}].ImageName" class="form-control" placeholder="tên hình ảnh">
-                                </div>
-                                <div class="input-group" style="margin:5px 0px">
-                                    <span class="input-group-addon">Vị trí sắp xếp</span>
-                                    <select name="Images[${formCount}].Position" class="form-control pro-edt-select form-control-primary">
-                                        <option value="1">Chọn vị trí sắp xếp</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Trạng thái</span>
-                                    <select name="Images[${formCount}].IsActive" class="form-control pro-edt-select form-control-primary">
-                                        <option value="true">Hiển thị</option>
-                                        <option value="false">Tạm Ẩn</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="product-edt-remove" style="float:right;">
-                                    <button type="button" id="remove_${formCount}" class="btn btn-ctl-bt waves-effect waves-light" style="background-color:red">
-                                        Remove
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('addPictureWrap').insertAdjacentHTML('beforeend', newForm);
-            readImage(formCount);
-
-        });
+    
+        //read image existed
         var countImageExited = @CountImageExisted;
         for (var i = 0; i <= countImageExited; i++) {
             const imgPreview = document.getElementById(`imgPreview_${i}`);
@@ -487,35 +191,4 @@
             }
             readImage(i);
         }
-
-        document.addEventListener('click', function (event) {
-            if (event.target.matches('[id^="remove_"]')) {
-                const formId = event.target.id.split('_')[1];
-                document.getElementById(`form_${formId}`).remove();
-                reassignFormIds(); // Re-assign IDs and names after removal
-            }
-        });
-
-        function readImage(id) {
-            const inputElement = document.getElementById(`insertImage_${id}`);
-            const imgPreview = document.getElementById(`imgPreview_${id}`);
-
-            if (inputElement && imgPreview) { // Kiểm tra xem phần tử có tồn tại hay không
-                inputElement.addEventListener('change', function (event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            imgPreview.src = e.target.result;
-                            imgPreview.style.display = 'block'; // Hiển thị ảnh đã chọn
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                });
-            } else {
-                console.error(`Element insertImage_${id} or imgPreview_${id} not found.`);
-            }
-        }
     </script>
-</body>
-</html>

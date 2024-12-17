@@ -20,11 +20,11 @@ namespace Store.WebService.Services
             _newsApi = newsApi;
             _client = new HttpClient();
         }
-        public async Task<List<vmNews>> GetAllNews(int page, int pageSize)
+        public async Task<List<NewsVM>> GetAllNews(int page, int pageSize)
         {
             try
             {
-                var tekZones = new List<vmNews>();
+                var tekZones = new List<NewsVM>();
                 var uri = _newsApi.GetNews(page, pageSize);
                 var response = await _client.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -35,7 +35,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var tekZone in apiResponse.result)
                         {
-                            tekZones.Add(new vmNews
+                            tekZones.Add(new NewsVM
                             {
                                 Id = tekZone.Id,
                                 CategoryId = tekZone.CategoryId,
@@ -57,7 +57,7 @@ namespace Store.WebService.Services
             }
             catch (Exception ex)
             {
-                return new List<vmNews>();
+                return new List<NewsVM>();
             }
         }
     }

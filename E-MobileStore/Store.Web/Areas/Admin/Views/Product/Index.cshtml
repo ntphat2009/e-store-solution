@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmProduct>
+﻿@model IEnumerable<Store.WebService.ViewModels.ProductVM>
 @using static Store.Web.Utility.ProductsUtilities
 @using static Store.Web.Utility.StatusUltilities
 @{
@@ -7,9 +7,7 @@
     var totalItem = ViewBag.TotalItem;
 }
 
-@if (Model != null && Model.Any())
-{
-    int i = 1;
+
     <div class="breadcome-area" style="margin-left:20px">
         <div class="container-fluid">
             <div class="row">
@@ -44,6 +42,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
                         <h4>Danh sách sản phẩm</h4>
+                    <div style="float:right;" class="add-product">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addproduct">
+                            Thêm sản phẩm
+                        </button>
+                        <button class="btn btn-danger" id="deleteSelected">Xóa các sản phẩm đã chọn</button>
+                    </div>
                         <form class="mt-2" onsubmit="return false;">
                             <div class="click-search">
                                 <i class="topzone-search"></i>
@@ -54,15 +58,14 @@
                             <div class="sg-search " style="display: none;">
                             </div>
                         </form>
-                        <div class="add-product">
-                            <a href="javascript:void(0);" onclick="openPopupAdd()">Thêm sản phẩm</a>
-                        </div>
-                      
+                       
+                    @if (Model != null && Model.Any())
+                    {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Hình ảnh</th>
+                                    <th style="width:50px"></th>
+                                    <th >Hình ảnh</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Trạng thái</th>
                                     <th>Ngành hàng</th>
@@ -76,8 +79,8 @@
                                 @foreach (var product in Model)
                                 {
                                 <tr>
-                                    <td>@i</td>
-                                    <td><img class="lazyload" data-src="@product.ProductImages?.FirstOrDefault(x=>x.Position.Trim()=="1")?.ImageURL" alt="@product.ProductImages?.FirstOrDefault(x=>x.Position.Trim()=="1")?.ImageName" /></td>
+                                    <td><input type="checkbox" class="productCheckbox" data-product-url="@product.ProductUrl" /></td>
+                                    <td><img class="lazyload" data-src="@Url.Content("~/uploads/images/"+@product.ProductImages?.FirstOrDefault(x=>x.Position.Trim()=="1")?.ImageURL)" alt="@product.ProductImages?.FirstOrDefault(x=>x.Position.Trim()=="1")?.ImageName" /></td>
                                     <td>@product.ProductName</td>
                                     <td>
                                             @GetStatusElement(product.IsActive, product.IsDeleted)
@@ -88,38 +91,54 @@
                                     <td>@product.Quantity</td>
                                     <td>
                                             <a data-toggle="tooltip" type="button" href="/quan-li-san-pham/@product.ProductUrl" title="chi tiết" class="pd-setting-ed"><i class="fa-solid fa-circle-info"></i></a>
-                                            <a data-toggle="tooltip" title="cập nhật" class="pd-setting-ed" href="javascript:void(0);" onclick="openPopupEdit('@product.ProductUrl')"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></a>
+                                            <a data-toggle="tooltip" title="cập nhật" class="pd-setting-ed" href="javascript:void(0);" onclick="openPopupEdit('@product.ProductUrl')" data-product-url="@product.ProductUrl"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></a>
                                             <a data-toggle="tooltip" href="javascript:void(0);" data-product-url="@product.ProductUrl" id="deleted" title="Xóa" class="pd-setting-ed"><i class="fa-solid fa-trash" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
-                                    i++;
                                 }
                                 </tbody>
                         </table>
+                        <!-- Modal structure for update product -->
                         <div class="modal fade" id="productModal" data-bs-focus="false" aria-labelledby="productModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
-                                <div class="modal-content" >
+                                <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="productModalLabel">Cập nhật Sản Phẩm</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div class="modal-body" style="padding:0px;">
-                                        <div id="modalContent" style="padding:0px;"></div>
+                                    <div class="modal-body">
+                                        <div id="modalContent" style="margin-left: -205px;"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="custom-pagination">
                             <ul class="pagination" id="pagination">
                             </ul>
                         </div>
+                    }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-}
+<!-- Modal structure for add product -->
+<div class="modal fade" id="addproduct" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="min-width:1500px;right:70%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @await Html.PartialAsync("ProductAdd")
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/js/product.js"></script>
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
@@ -131,203 +150,22 @@
         document.addEventListener("DOMContentLoaded", function () {
             const totalItem = @totalItem;
             const totalPage =Math.ceil(totalItem / 10);
-            console.log(totalPage)
-
             const pagination = document.querySelector("#pagination");
+            if (pagination == null) { return }
             pagination.innerHTML += ``;
-            for (let i = 1; i <= totalPage;i++){
+            for (let i = 1; i <= totalPage; i++) {
                 pagination.innerHTML += `<li class="page-item" > <a class="page-link" id="${i}" href = "#" > ${i} </a></li>`
             }
             document.querySelectorAll(".page-link").forEach(function (element) {
                 element.addEventListener("click", function (e) {
                     e.preventDefault();
                     const pageId = this.id;
-                    const uri = "/quan-li-san-pham?page="+pageId+"&pageSize=10&sortBy='date_desc'";
+                    const uri = "/quan-li-san-pham?page=" + pageId + "&pageSize=10&sortBy='date_desc'";
                     console.log(uri);
                     loadProducts(uri)
-                        //
                 });
             });
             //
-            function loadProducts(uri) {
-                $.ajax({
-                    type: "GET",
-                    url: uri,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function (data) {
-                        var productList = $('#product-list');
-                        console.log(data);
-                        var htmlContent = "";
-                        data.forEach(function (product,index) {
-                            var IsActive = product.isActive;
-                            var IsDelete = product.isDeleted;
-                            if (IsActive == true && IsDelete == false) {
-                                var status = "<button class='pd-setting'>Hoạt động</button>";
-                            }
-                            else if (IsActive == false && IsDelete == false)
-                            {
-                                status = "<button class='ps-etting'>Tạm dừng</button>";
-                            }
-                            else {
-                                status = "<button class='ds-setting'>Đã xóa</button>";
-                            }
-                            var imagesList = product.productImages
-                            var imageActive="";
-                            imagesList.forEach(function (image) {
-                                if(image.position="1")
-                                {
-                                    imageActive = image.imageURL;
-                                }
-                            })
-                            var firstImageURL = product.productImages[0]?.imageURL || 'default-image.jpg';
-                            htmlContent += `
-                            <tr>
-                                <td>${index}</td>
-                                <td><img class="lazyload" data-src="${imageActive}" alt="${imageActive}" /></td>
-                                <td>${product.productName} </td>
-                                 <td>
-                                  ${status}
-                                 </td>
-                                 <td> ${product.categoryName} </td>
-                                 <td> ${product.priceSale} đ </td>
-                                 <td> ${product.price} đ </td>
-                                 <td> ${product.quantity} </td>
-                                 <td>
-                                 <a data - toggle="tooltip" type = "button" href = "/quan-li-san-pham/${product.productUrl}" title = "chi tiết" class="pd-setting-ed" > <i class="fa-solid fa-circle-info" > </i></a>
-                                         <a data - toggle="tooltip" title = "cập nhật" class="pd-setting-ed" href="javascript:void(0);" onclick="openPopupEdit('${product.productUrl}')"> <i class="fa-solid fa-pen-to-square" aria-hidden="true"> </i></a >
-                                 <a data - toggle="tooltip" title = "Xóa" class="pd-setting-ed" > <i class="fa-solid fa-trash" aria-hidden="true"></i></a >
-                                 </td>
-                             </tr>`;
-                            index++;
-                        });
-                        productList.html("");
-                        productList.html(htmlContent);
-                        productList.fadeIn();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        alert("check console to see proplem");
-                    }
-                });
-            };
-        });
-    </script>
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Bold,
-            Italic,
-            Font,
-            Paragraph,
-            Image,
-            ImageCaption,
-            ImageResize,
-            ImageStyle,
-            ImageToolbar,
-            LinkImage,
-            Link
-        } from 'ckeditor5';
-        ClassicEditor
-            .create(document.querySelector('#txtDescription'), {
-                plugins: [
-                    Essentials, Bold, Italic, Font, Paragraph,
-                    Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, LinkImage, Link
-                ],
-                toolbar: [
-                    'insertImage', 'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|'
-                ],
-                image: {
-                    insert: {
-                        type: 'auto'
-                    }
-                }
-            })
-            .then(editor => {
-                console.log('Editor was initialized', editor);
-                document.querySelector('form').addEventListener('submit', (event) => {
-                    const data = editor.getData(); // Lấy dữ liệu từ editor
-                    document.querySelector('#txtDescription').value = data; // Gán vào trường ẩn
-                });
-            })
-            .catch(error => {
-                console.error('There was a problem initializing the editor.', error);
-            });
-    </script>
-    <script>
-        function openPopupEdit(productUrl) {
-            $.ajax({
-                url: "/quan-li-san-pham/cap-nhat-san-pham",
-                data: { productUrl: productUrl },
-                type: "GET",
-                success: function (response) {
-                    $('#modalContent').html(response);
-                    $('#productModal').modal('show');
-                },
-                error: function () {
-                    alert("Có lỗi xảy ra khi tải dữ liệu.");
-                }
-            });
-        }     
-        function openPopupAdd() {
-            $.ajax({
-                url: "/quan-li-san-pham/them-san-pham",
-                type: "GET",
-                success: function (response) {
-                    $('#modalContent').html(response);
-                    $('#productModal').modal('show');
-                },
-                error: function () {
-                    alert("Có lỗi xảy ra khi tải dữ liệu.");
-                }
-            });
-        }
-        $('#modal-container').modal({
-            focus: false
-        });
-        // function openPopupAdd() {
-        //     var width = 1500;
-        //     var height = 1000;
-        //     var left = (screen.width / 2) - (width / 2);
-        //     var top = (screen.height / 2) - (height / 2);
-        //     window.open("/quan-li-san-pham/them-san-pham", "popupWindow", "width=" + width + ",height=" + height + ",scrollbars=yes, resizable=yes, top=" + top + ", left=" + left);
-        // }
-        // function openPopupEdit(productUrl) {
-        //     var width = 1500;
-        //     var height = 1000;
-        //     var left = (screen.width / 2) - (width / 2);
-        //     var top = (screen.height / 2) - (height / 2);
-        //     window.open("/quan-li-san-pham/cap-nhat-san-pham?productUrl=" + productUrl, "popupWindow", "width=" + width + ",height=" + height + ",scrollbars=yes, resizable=yes, top=" + top + ", left=" + left);
-        // }
-        document.addEventListener("DOMContentLoaded", function () {
-            var getProductUrl = document.querySelectorAll("#deleted");
-            getProductUrl.forEach(item => {
-                item.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    const productUrl = this.getAttribute("data-product-url");
-                    if(confirm("Bạn muốn xóa sản phẩm này ?")){
-                        fetch(`/quan-li-san-pham/xoa-san-pham?productUrl=${productUrl}`, {
-                            method :"PUT",
-                        })
-                            .then(response =>response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    location.reload();
-                                }
-                                else {
-                                    alert("Đã có lỗi xảy ra khi xóa!")
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error);
-                                alert("Xóa sản phẩm thất bại.");
-                            });
-                    }
-                });
-            });
         });
     </script>
 }

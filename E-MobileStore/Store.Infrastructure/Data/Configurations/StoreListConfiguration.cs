@@ -15,7 +15,6 @@ namespace Store.Infrastructure.Data.Configurations
         {
             builder.ToTable("Store");
             builder.HasKey(x => x.Id);
-     
         }
     }
 }

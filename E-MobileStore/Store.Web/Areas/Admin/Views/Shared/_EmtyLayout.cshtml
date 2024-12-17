@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Store.WebAdmin</title>
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <!-- Google Fonts
+        ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link href="~/css/admin/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link href="~/css/admin/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- nalika Icon CSS
+        ============================================ -->
+    <link href="~/css/admin/css/nalika-icon.css" rel="stylesheet" />
+    <!-- owl.carousel CSS
+        ============================================ -->
+    <link href="~/css/admin/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/css/admin/css/owl.theme.css" rel="stylesheet" />
+    <link href="~/css/admin/css/owl.transitions.css" rel="stylesheet" />
+    <!-- animate CSS
+        ============================================ -->
+    <link href="~/css/admin/css/animate.css" rel="stylesheet" />
+    <!-- normalize CSS
+        ============================================ -->
+    <link href="~/css/admin/css/normalize.css" rel="stylesheet" />
+    <!-- meanmenu icon CSS
+        ============================================ -->
+    <link href="~/css/admin/css/meanmenu.min.css" rel="stylesheet" />
+    <!-- main CSS
+        ============================================ -->
+    <link href="~/css/admin/css/main.css" rel="stylesheet" />
+    <!-- morrisjs CSS
+        ============================================ -->
+    <link href="~/css/admin/css/morrisjs/morris.css" rel="stylesheet" />
+    <!-- mCustomScrollbar CSS
+        ============================================ -->
+    <link href="~/css/admin/css/scrollbar/jquery.mcustomscrollbar.min.css" rel="stylesheet" />
+    <!-- metisMenu CSS
+        ============================================ -->
+    <link href="~/css/admin/css/metismenu/metismenu.min.css" rel="stylesheet" />
+    <link href="~/css/admin/css/metismenu/metismenu-vertical.css" rel="stylesheet" />
+    <!-- calendar CSS
+        ============================================ -->
+    <link href="~/css/admin/css/calendar/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/css/admin/css/calendar/fullcalendar.print.min.css" rel="stylesheet" />
+    <!-- style CSS
+        ============================================ -->
+    <!-- responsive CSS
+        ============================================ -->
+    <link href="~/css/admin/css/responsive.css" rel="stylesheet" />
+    <!-- modernizr JS
+        ============================================ -->
+    @*   <link href="~/assets/vendor/ckeditor5.css" rel="stylesheet" /> *@
+    <link href="~/css/admin/css/style.css" rel="stylesheet" />
+    <script src="~/js/admin/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+    <style>
+        .modal-dialog.modal-lg {
+            min-width: 1500px; /* Đảm bảo modal chiếm 90% chiều rộng màn hình */
+            margin: 10px auto;
+        }
+
+        .modal-body {
+            padding: 1px;
+        }
+
+        .modal-header {
+            background-color: #f8f9fa; /* Màu nền của phần header */
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+    <div class="all-content-wrapper">
+
+        @RenderBody()
+
+    </div>
+    <!-- jquery
+        ============================================ -->
+    <script src="~/js/admin/js/vendor/jquery-1.12.4.min.js"></script>
+    <!-- bootstrap JS
+        ============================================ -->
+    <script src="~/js/admin/js/bootstrap.min.js"></script>
+    <!-- wow JS
+        ============================================ -->
+    <script src="~/js/admin/js/wow.min.js"></script>
+    <!-- price-slider JS
+        ============================================ -->
+    <script src="~/js/admin/js/jquery-price-slider.js"></script>
+    <!-- meanmenu JS
+        ============================================ -->
+    <script src="~/js/admin/js/jquery.meanmenu.js"></script>
+    <!-- owl.carousel JS
+        ============================================ -->
+    <script src="~/js/admin/js/owl.carousel.min.js"></script>
+    <!-- sticky JS
+        ============================================ -->
+    <script src="~/js/admin/js/jquery.sticky.js"></script>
+    <!-- scrollUp JS
+        ============================================ -->
+    <script src="~/js/admin/js/jquery.scrollup.min.js"></script>
+    <!-- mCustomScrollbar JS
+        ============================================ -->
+    <script src="~/js/admin/js/scrollbar/jquery.mcustomscrollbar.concat.min.js"></script>
+    <script src="~/js/admin/js/scrollbar/mcustomscrollbar-active.js"></script>
+    <!-- metisMenu JS
+        ============================================ -->
+    <script src="~/js/admin/js/metismenu/metismenu.min.js"></script>
+    <script src="~/js/admin/js/metismenu/metismenu-active.js"></script>
+    <!-- morrisjs JS
+        ============================================ -->
+    <script src="~/js/admin/js/sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/js/admin/js/sparkline/jquery.charts-sparkline.js"></script>
+    <!-- calendar JS
+        ============================================ -->
+    <script src="~/js/admin/js/calendar/moment.min.js"></script>
+    <script src="~/js/admin/js/calendar/fullcalendar.min.js"></script>
+    <script src="~/js/admin/js/calendar/fullcalendar-active.js"></script>
+    <!-- lazyloading
+        ============================================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" integrity="sha512-q583ppKrCRc7N5O0n2nzUiJ+suUv7Et1JGels4bXOaMFQcamPk9HjdUknZuuFjBNs7tsMuadge5k9RzdmO+1GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- tab JS
+        ============================================ -->
+    <script src="~/js/admin/js/tab.js"></script>
+    <!-- plugins JS
+        ============================================ -->
+    <script src="~/js/admin/js/plugins.js"></script>
+    <!-- gloabl JS
+       ============================================ -->
+    <script src="~/js/admin/js/global.js"></script>
+    <!-- main JS
+        ============================================ -->
+    <script src="~/js/admin/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" integrity="sha512-q583ppKrCRc7N5O0n2nzUiJ+suUv7Et1JGels4bXOaMFQcamPk9HjdUknZuuFjBNs7tsMuadge5k9RzdmO+1GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ 
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

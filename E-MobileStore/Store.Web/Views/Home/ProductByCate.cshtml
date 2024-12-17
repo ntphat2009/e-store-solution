@@ -1,44 +1,59 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmCategory>
+﻿@model IEnumerable<Store.WebService.ViewModels.CategoryVM>
 @using static Store.Web.Utility.ProductsUtilities
 @{
-    ViewBag.CategoryUrl = @Model.First().CategoryUrl;
+    @if (Model != null && Model.Any())
+    {
+        ViewBag.CategoryUrl = @Model.First().CategoryUrl;
+    }
+
 }
-@if (Model != null)
+@if (Model != null && Model.Any())
 {
     foreach (var category in Model)
     {
-        if (category.Products.Count > 0)
+        if (category.Position == "home")
         {
             <div class="box-slide ">
                 <a href="@category.Name" class="logo-cate  ">
                     <i class="topzone-iconapple"></i>
                     <h2 class="title-text">@category.Name</h2>
                 </a>
-                <div class="slide-cate owl-theme owl-loaded  filtering" data-block="@category.Name">
-                    @foreach (var product in category.Products)
-                    {
-                        <div class="owl-item active" style="width: 292.5px; margin-right: 10px;">
-                            <div class="item" data-pos="1" data-block="Mac">
+                @if (category.Products.Any())
+                {
+                    <div class="slide-cate owl-theme owl-loaded  filtering" data-block="@category.Name">
 
-                                <a href="@Url.Action("Index", "ProductDetail", new {categoryUrl=ViewBag.CategoryUrl, productUrl = product.ProductUrl })" class="main-contain" style="min-height:433px" data-s="Nomal" data-site="16" data-pro="3" data-cache="@product.IsActive" data-name="@product.Name" data-id="322612" data-price="@product.Name" data-brand="@category.Name" data-cate="@category.Name" data-box="BoxHome">
-                                    <label class="no-label"></label>
-                                    <div class="img-slide">
-                                        <img
-                                             alt="@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageName"
-                                             width="300"
-                                             height="300"
-                                             class="lazyload" data-src="@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageURL">
-                                    </div>
-                                    <h3>@product.Name</h3>
-                                    <span class="box-price">
-                                        @FormatPrice(@product.Price)₫
-                                    </span>
-                                </a>
+                        @foreach (var product in category.Products)
+                        {
+                            <div class="owl-item active" style="width: 292.5px; margin-right: 10px;">
+                                <div class="item" data-pos="1" data-block="Mac">
+
+                                    <a href="@Url.Action("Index", "ProductDetail", new {categoryUrl=ViewBag.CategoryUrl, productUrl = product.ProductUrl })" class="main-contain" style="min-height:433px" data-s="Nomal" data-site="16" data-pro="3" data-cache="@product.IsActive" data-name="@product.Name" data-id="322612" data-price="@product.Name" data-brand="@category.Name" data-cate="@category.Name" data-box="BoxHome">
+                                        <label class="no-label"></label>
+                                        <div class="img-slide">
+                                            <img alt="@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageName"
+                                                 width="300"
+                                                 height="300"
+                                                 class="lazyload" data-src="@Url.Content("~/uploads/images/" + @product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageURL)">
+                                        </div>
+                                        <h3>@product.Name</h3>
+                                        <span class="box-price">
+                                            @FormatPrice(@product.Price)₫
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-danger text-center fs-5">Danh sách sản phẩm theo danh mục này hiện không khả dụng</p>
+                    <div class="image-loading">
+                        <img class="lazyload" width="100px" height="100px" data-src="https://i.gifer.com/ZZ5H.gif" />
+                    </div>
+                }
             </div>
+
         }
     }
 }

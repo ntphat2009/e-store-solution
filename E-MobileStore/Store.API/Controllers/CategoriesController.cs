@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using StackExchange.Redis;
+using Store.ApiService.Services;
 using Store.ApiService.Services.Interfaces;
 using Store.Domain.Entities;
 using Store.Infrastructure.DTOs;
@@ -13,22 +15,26 @@ namespace Store.API.Controllers
     public class CategoriesController : ControllerBase
     {
         private BaseApiResponse _response;
+        private readonly IRedisService _redisService;
         private readonly ICategoryService _category;
-        private readonly IDistributedCache _distributedCache;
-        public CategoriesController(ICategoryService category, IDistributedCache distributedCache)
+        public CategoriesController(ICategoryService category, IRedisService redisService)
         {
-            _distributedCache = distributedCache;
+            _redisService = redisService;
             _category = category;
             _response = new BaseApiResponse();
         }
         [HttpGet]
         [Route("GetAllCategory")]
-        public async Task<IActionResult> GetAllCategoriesAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllCategoriesAsync(int page, int pageSize, bool clearCache = false)
         {
             try
             {
-                var key = $"cate:page={page}";
-                string? catchMember = await _distributedCache.GetStringAsync(key, cancellationToken);
+                var key = $"productCate::page={page}";
+                if (clearCache)
+                {
+                    await _redisService.RemoveCacheAsync(key);
+                }
+                string? catchMember = await _redisService.GetCacheAsync(key);
                 IEnumerable<Category>? listCate;
                 if (string.IsNullOrEmpty(catchMember))
                 {
@@ -37,18 +43,14 @@ namespace Store.API.Controllers
                     {
                         return NotFound();
                     }
-                    string jsonList = JsonConvert.SerializeObject(listCate, new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    });
-                    await _distributedCache.SetStringAsync(key, jsonList, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1) }, cancellationToken); ;
-                    _response.Result = listCate;
+
+                    await _redisService.SetCacheAsync(key, listCate, TimeSpan.FromHours(1));
                 }
                 else
                 {
                     listCate = JsonConvert.DeserializeObject<IEnumerable<Category>>(catchMember);
-                    _response.Result = listCate;
                 }
+                _response.Result = listCate;
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -62,12 +64,16 @@ namespace Store.API.Controllers
         }
         [HttpGet]
         [Route("GetCategoryByUrl")]
-        public async Task<IActionResult> GetCategoryByIdAsync(string categoryUrl, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetCategoryByIdAsync(string categoryUrl, bool clearCate = false)
         {
             try
             {
-                var key = $"cate={categoryUrl}";
-                string? catchMember = await _distributedCache.GetStringAsync(key, cancellationToken);
+                var key = $"productCate::{categoryUrl}";
+                if (clearCate)
+                {
+                    await _redisService.RemoveCacheAsync(key);
+                }
+                string? catchMember = await _redisService.GetCacheAsync(key);
                 Category? cate;
                 if (string.IsNullOrEmpty(catchMember))
                 {
@@ -76,18 +82,13 @@ namespace Store.API.Controllers
                     {
                         return NotFound();
                     }
-                    string json = JsonConvert.SerializeObject(cate, new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    });
-                    await _distributedCache.SetStringAsync(key, json, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1) }, cancellationToken);
-                    _response.Result = cate;
+                    await _redisService.SetCacheAsync(key, cate, TimeSpan.FromHours(1));
                 }
                 else
                 {
                     cate = JsonConvert.DeserializeObject<Category>(catchMember);
-                    _response.Result = cate;
                 }
+                _response.Result = cate;
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -101,19 +102,12 @@ namespace Store.API.Controllers
         }
         [HttpPost]
         [Route("InsertOrUpdateCategory")]
-        public async Task<IActionResult> InsertOrUpdateCategory(CategoryDTO category, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> InsertOrUpdateCategory(CategoryDTO category)
         {
             try
             {
                 _category.AddOrUpdateCategory(category);
-                var key = $"cate={ToUrl(category.Name)}";
-                await _distributedCache.RemoveAsync(key, cancellationToken);
-                string catepage;
-                for (int i = 0; i < 10; i++)
-                {
-                    catepage= $"cate:page={i}";
-                    await _distributedCache.RemoveAsync(catepage, cancellationToken);
-                }
+                await _redisService.RemovePatternAsync("productCate::*");
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -128,19 +122,12 @@ namespace Store.API.Controllers
         }
         [HttpPut]
         [Route("DeleteCategory")]
-        public async Task<IActionResult> DeleteCategory(string categoryUrl, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteCategory(string categoryUrl)
         {
             try
             {
                 _category.DeleteCategory(categoryUrl);
-                var key = $"cate={categoryUrl}";
-                await _distributedCache.RemoveAsync(key, cancellationToken);
-                string catepage;
-                for (int i = 0; i < 10; i++)
-                {
-                    catepage = $"cate:page={i}";
-                    await _distributedCache.RemoveAsync(catepage, cancellationToken);
-                }
+                await _redisService.RemovePatternAsync("productCate::*");
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.Message = "200";
                 return Ok(_response);

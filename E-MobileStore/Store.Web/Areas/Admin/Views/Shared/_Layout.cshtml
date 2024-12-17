@@ -56,7 +56,7 @@
 	<link href="~/css/admin/css/responsive.css" rel="stylesheet" />
     <!-- modernizr JS
         ============================================ -->
-    <link href="~/assets/vendor/ckeditor5.css" rel="stylesheet" />
+  @*   <link href="~/assets/vendor/ckeditor5.css" rel="stylesheet" /> *@
     <link href="~/css/admin/css/style.css" rel="stylesheet" />
 	<script src="~/js/admin/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
@@ -141,7 +141,8 @@
     <!-- main JS
         ============================================ -->
 	<script src="~/js/admin/js/main.js"></script>
-    <script src="~/ckfinder/ckfinder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" integrity="sha512-q583ppKrCRc7N5O0n2nzUiJ+suUv7Et1JGels4bXOaMFQcamPk9HjdUknZuuFjBNs7tsMuadge5k9RzdmO+1GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   @*  <script src="~/ckfinder/ckfinder.js"></script>
     <script type="importmap">
         {
             "imports": {
@@ -149,7 +150,7 @@
                 "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
             }
         }
-    </script>
+    </script> *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -34,15 +34,16 @@ function callSuggestSearch(n) {
                 cache: false,
                 beforeSend: function () { },
                 success: function (data) {
+                    console.log(data)
                     if (data && data.length > 0) {
                         var htmlContent = '<small class="quicklink">Có phải bạn muốn tìm</small><ul class="list-sg-search">';
                         data.forEach(function (product) {
                             var firstImageURL = product.productImages[0]?.imageURL || 'default-image.jpg';
                             htmlContent += `
                                 <li>
-                                    <a href="detailproduct?productid=${product.productId}" class="main-contain">
+                                    <a href="${product.categoryUrl}/${product.productUrl}" class="main-contain">
                                         <div style="max-width:100px" class="img-search">
-                                            <img src="${firstImageURL}" alt="${product.productName}">
+                                            <img class="lazyload" data-src="/uploads/images/${firstImageURL}" alt="${product.productName}">
                                         </div>
                                         <div class="text-img">
                                             <span>${product.productName}</span>

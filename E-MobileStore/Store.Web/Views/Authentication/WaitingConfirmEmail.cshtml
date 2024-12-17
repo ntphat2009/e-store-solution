@@ -30,7 +30,7 @@
             .then(data => {
                 if (data.isConfirmed) {
                     // Nếu email đã được xác nhận, chuyển hướng về trang đăng nhập
-                    window.location.href = '/nguoi-dung/dang-nhap';
+                    window.location.href = 'nguoi-dung/thong-tin-dang-nhap';
                 } else {
                     // Nếu chưa, tiếp tục kiểm tra sau 5 giây
                     setTimeout(checkEmailConfirmation, 5000);

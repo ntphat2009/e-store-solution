@@ -15,7 +15,8 @@ namespace Store.Infrastructure.Data.Configurations
         {
             builder.ToTable("Banners");
             builder.HasKey(o => o.Id);
-            builder.HasIndex(t => t.BannerAlt);
+            builder.HasIndex(t => t.ImageURL);
+            builder.HasIndex(t => t.IsActive);
             builder.HasOne(b => b.Category)
                  .WithMany(c => c.Banners)
                  .HasForeignKey(b => b.CategoryId)

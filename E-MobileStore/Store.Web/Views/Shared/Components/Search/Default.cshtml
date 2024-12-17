@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model IEnumerable<Store.WebService.ViewModels.vmProduct>
+@model IEnumerable<Store.WebService.ViewModels.ProductVM>
 @if (Model != null && Model.Any())
 {
 	<div class="sg-search active" style="display: block;">
@@ -18,7 +18,7 @@
 					<li>
 						<a href="/@item.ProductId" class="main-contain">
 							<div class="img-search">
-								<img src="@item.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageName" alt="@item.ProductName">
+								<img class="lazyload" data-src="@Url.Content("~/uploads/images/" + @item.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageName)" alt="@item.ProductName">
 							</div>
 							<div class="text-img">
 								<span>@item.ProductName</span>

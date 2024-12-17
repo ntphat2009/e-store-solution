@@ -13,16 +13,16 @@ namespace Store.WebService.APIs
 		private string baseUrl = "http://localhost:5163";
 		public string SignIn()
 		{
-			return $"{baseUrl}/api/authen/signin";
+			return $"{baseUrl}/api/authentications/signin";
 		}
 		public string SignUp()
 		{
-			return $"{baseUrl}/api/authen/signup";
+			return $"{baseUrl}/api/authentications/signup";
 		}
 
 		public string GetUser(string userName)
 		{
-			return $"{baseUrl}/api/authen/FindUser?userName={userName}";
+			return $"{baseUrl}/api/authentications/FindUser?userName={userName}";
 
 		}
 	}

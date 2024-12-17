@@ -12,11 +12,10 @@ namespace Store.Web.Areas.Admin.Controllers
         {
             _logger = logger;
         }
-        [Route("admin")]
+        [Route("quan-tri-vien")]
         public IActionResult Index()
 
         {
-            //var jwt = TempData["jwtadmin"];
             var jwt = HttpContext.Session.GetString("jwtadmin");
             if (jwt == null)
             {

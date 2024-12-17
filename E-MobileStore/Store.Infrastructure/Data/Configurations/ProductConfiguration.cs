@@ -16,6 +16,7 @@ namespace Store.Infrastructure.Data.Configurations
             builder.ToTable("Products");
             builder.HasKey(o => o.Id);
             builder.HasIndex(t => t.Name).IsUnique();
+            builder.HasIndex(t => t.IsActive);
             builder.HasOne(o => o.Category)
                    .WithMany(p => p.Products)
                    .HasForeignKey(p => p.CategoryId)

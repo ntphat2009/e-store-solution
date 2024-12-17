@@ -1,306 +1,85 @@
 ﻿@{
     ViewData["Title"] = "Thêm ngành hàng";
-    Layout = null;
+    Layout = "~/Areas/Admin/Views/Shared/_EmtyLayout.cshtml";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Store.WebAdmin</title>
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-        ============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-        ============================================ -->
-    <link href="~/css/admin/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap CSS
-        ============================================ -->
-    <link href="~/css/admin/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- nalika Icon CSS
-        ============================================ -->
-    <link href="~/css/admin/css/nalika-icon.css" rel="stylesheet" />
-    <!-- owl.carousel CSS
-        ============================================ -->
-    <link href="~/css/admin/css/owl.carousel.css" rel="stylesheet" />
-    <link href="~/css/admin/css/owl.theme.css" rel="stylesheet" />
-    <link href="~/css/admin/css/owl.transitions.css" rel="stylesheet" />
-    <!-- animate CSS
-        ============================================ -->
-    <link href="~/css/admin/css/animate.css" rel="stylesheet" />
-    <!-- normalize CSS
-        ============================================ -->
-    <link href="~/css/admin/css/normalize.css" rel="stylesheet" />
-    <!-- meanmenu icon CSS
-        ============================================ -->
-    <link href="~/css/admin/css/meanmenu.min.css" rel="stylesheet" />
-    <!-- main CSS
-        ============================================ -->
-    <link href="~/css/admin/css/main.css" rel="stylesheet" />
-    <!-- morrisjs CSS
-        ============================================ -->
-    <link href="~/css/admin/css/morrisjs/morris.css" rel="stylesheet" />
-    <!-- mCustomScrollbar CSS
-        ============================================ -->
-    <link href="~/css/admin/css/scrollbar/jquery.mcustomscrollbar.min.css" rel="stylesheet" />
-    <!-- metisMenu CSS
-        ============================================ -->
-    <link href="~/css/admin/css/metismenu/metismenu.min.css" rel="stylesheet" />
-    <link href="~/css/admin/css/metismenu/metismenu-vertical.css" rel="stylesheet" />
-    <!-- calendar CSS
-        ============================================ -->
-    <link href="~/css/admin/css/calendar/fullcalendar.min.css" rel="stylesheet" />
-    <link href="~/css/admin/css/calendar/fullcalendar.print.min.css" rel="stylesheet" />
-    <!-- style CSS
-        ============================================ -->
-    <!-- responsive CSS
-        ============================================ -->
-    <link href="~/css/admin/css/responsive.css" rel="stylesheet" />
-    <!-- modernizr JS
-        ============================================ -->
-    <link href="~/assets/vendor/ckeditor5.css" rel="stylesheet" />
-    <link href="~/css/admin/css/style.css" rel="stylesheet" />
-    <script src="~/js/admin/js/vendor/modernizr-2.8.3.min.js"></script>
-</head>
 
-<body>
-    <div class="breadcome-area" style="margin-left:20px">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="breadcome-list">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <div class="breadcomb-wp">
-                                    <div class="breadcomb-icon">
-                                        <i class="icon nalika-home"></i>
-                                    </div>
-                                    <div class="breadcomb-ctn">
-                                        <h2>@ViewData["Title"]</h2>
-                                        <p>Welcome to FFShop <span class="bread-ntd">Admin Template</span></p>
-                                    </div>
+@if (ViewBag.CategoryInfo != null)
+{
+    <div class="single-product-tab-area mg-b-30" style="margin-left:20px">
+        <div class="single-pro-review-area">
+            <form action="/quan-li-nganh-hang/cap-nhat-nganh-hang" method="post" id="">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="review-tab-pro-inner">
+                                <div style="float:right">
+                                    <button type="submit" onclick="checkValidate(event)" data-toggle="tooltip" data-placement="left" title="Lưu" class="btn btn-action"><i class="fa-regular fa-floppy-disk" style="color:#1b2a47;"></i></button>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <div class="breadcomb-report">
-                                    <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i class="icon nalika-download"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @if (ViewBag.CategoryInfo != null)
-    {
-        <div class="single-product-tab-area mg-b-30" style="margin-left:20px">
-            <div class="single-pro-review-area">
-                <form action="/quan-li-nganh-hang/cap-nhat-nganh-hang" method="post" id="">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="review-tab-pro-inner">
-                                    <div style="float:right">
-                                        <button type="submit" data-toggle="tooltip" data-placement="left" title="Lưu" class="btn btn-action"><i class="fa-regular fa-floppy-disk" style="color:#1b2a47;"></i></button>
-                                    </div>
-                                    <ul id="myTab3" class="tab-review-design">
-                                        <li class="active"><a href="#description"><i class="fa-regular fa-pen-to-square"></i> Cập nhật ngành hàng</a></li>
-                                    </ul>
+                                <ul id="myTab3" class="tab-review-design">
+                                    <li class="active"><a href="#description"><i class="fa-regular fa-pen-to-square"></i> Cập nhật ngành hàng</a></li>
+                                </ul>
 
-                                    <div id="myTabContent" class="tab-content custom-product-edit">
-                                        <div class="product-tab-list tab-pane fade active in" id="description">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div id="dropzone">
-                                                        <div class="input-group">
-                                                            <div class="input-group-append">
-                                                                <img id="imgPreview_0" src="@ViewBag.CategoryInfo.ImageURL" alt="Preview Image" style="width:100%; height:auto; display:none;" />
-                                                                <input name="Id" type="hidden" value="@ViewBag.CategoryInfo.Id" />
-                                                                <input name="ImageURL" type="hidden" value="@ViewBag.CategoryInfo.ImageURL" />
-                                                                <input style="color:white" name="ImageURL" type="file" lass="text-light" value="@ViewBag.CategoryInfo.ImageURL" id="insertImage_0" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                                    <div class="review-content-section">
-                                                        <div class="input-group mg-b-pro-edt">
-                                                            <span class="input-group-addon">Tên ngành hàng</span>
-                                                            <input type="text" name="Name" value="@ViewBag.CategoryInfo.Name" class="form-control" placeholder="Nhập tên ngành hàng...">
-                                                        </div>
-                                                        <div class="input-group mg-b-pro-edt">
-                                                            <span class="input-group-addon"> Mô tả ngành hàng</span>
-                                                            <textarea name="Description" value="@ViewBag.CategoryInfo.Description" class="form-control" id="txtDescription" placeholder="Mô tả ngành hàng">
-                                                                @Html.Raw(ViewBag.CategoryInfo.Description)
-                                                           </textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="review-content-section">
-                                                        <div class="input-group mg-b-pro-edt">
-                                                            <span class="input-group-addon">Vị trí hiển thị</span>
-                                                            <input type="text" name="Position" value="@ViewBag.CategoryInfo.Position" class="form-control" placeholder="Vị trí hiển thị...">
-                                                        </div>
-                                                        <div class="input-group mg-b-pro-edt">
-                                                            <span class="input-group-addon">Được thêm bởi</span>
-                                                            <input type="text" name="UpdatedBy" value="@ViewBag.CategoryInfo.UpdatedBy" class="form-control" placeholder="Được cập nhật bởi">
-                                                            <input type="hidden" name="CreatedBy" value="@ViewBag.CategoryInfo.CreatedBy" class="form-control" placeholder="Được cập nhật bởi">
-                                                            <input type="hidden" name="UpdatedDate" value="@DateTime.Now" class="form-control" placeholder="Được cập nhật bởi">
-                                                        </div>
-                                                        <div class="input-group mg-b-pro-edt">
-                                                            <span class="input-group-addon">Trạng thái</span>
-                                                            <select name="IsActive" class="form-control pro-edt-select form-control-primary">
-                                                                <option value="true" @(ViewBag.CategoryInfo.IsActive == true ? "selected" : "")>Hoạt động</option>
-                                                                <option value="false" @(ViewBag.CategoryInfo.IsActive == false ? "selected" : "")>Tạm dừng</option>
-                                                            </select>
+                                <div id="myTabContent" class="tab-content custom-product-edit">
+                                    <div class="product-tab-list tab-pane fade active in" id="description">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div id="dropzone">
+                                                    <div class="input-group">
+                                                        <div class="input-group-append">
+                                                            <img id="imgPreview_0" src="@Url.Content("~/uploads/images/"+@ViewBag.CategoryInfo.ImageURL)" alt="Preview Image" style="width:100%; height:auto; display:none;" />
+                                                            <input name="Id" type="hidden" value="@ViewBag.CategoryInfo.Id" />
+                                                            <input id="image-url" name="ImageURL" type="hidden" value="@ViewBag.CategoryInfo.ImageURL" />
+                                                            <input style="color:white" name="formFile" type="file" lass="text-light" value="@ViewBag.CategoryInfo.ImageURL" id="insertImage_0" />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <div class="review-content-section">
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">Tên ngành hàng</span>
+                                                        <input id="name" type="text" name="Name" value="@ViewBag.CategoryInfo.Name" class="form-control" placeholder="Nhập tên ngành hàng...">
+                                                    </div>
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon"> Mô tả ngành hàng</span>
+                                                        <input type="text" name="Description" value="@ViewBag.CategoryInfo.Description" class="form-control" id="description" placeholder="Mô tả ngành hàng">
 
+                                                    </div>
+                                                </div>
+
+                                                <div class="review-content-section">
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">Vị trí hiển thị</span>
+                                                        <input id="position" type="text" name="Position" value="@ViewBag.CategoryInfo.Position" class="form-control" placeholder="Vị trí hiển thị...">
+                                                    </div>
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">Được cập nhật bởi</span>
+                                                        <input id="updated-by" type="text" name="UpdatedBy" value="@ViewBag.CategoryInfo.UpdatedBy" class="form-control" placeholder="Được cập nhật bởi">
+                                                        <input type="hidden" name="CreatedBy" value="@ViewBag.CategoryInfo.CreatedBy" class="form-control" placeholder="Được cập nhật bởi">
+                                                        <input type="hidden" name="UpdatedDate" value="@DateTime.Now" class="form-control" placeholder="Được cập nhật bởi">
+                                                    </div>
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">Trạng thái</span>
+                                                        <select id="is-active" name="IsActive" class="form-control pro-edt-select form-control-primary">
+                                                            <option value="true" @(ViewBag.CategoryInfo.IsActive == true ? "selected" : "")>Hoạt động</option>
+                                                            <option value="false" @(ViewBag.CategoryInfo.IsActive == false ? "selected" : "")>Tạm dừng</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                </form>
-            </div>
+
+                </div>
+            </form>
         </div>
+    </div>
 
-    }
-    <!-- jquery
-        ============================================ -->
-    <script src="~/js/admin/js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap JS
-        ============================================ -->
-    <script src="~/js/admin/js/bootstrap.min.js"></script>
-    <!-- wow JS
-        ============================================ -->
-    <script src="~/js/admin/js/wow.min.js"></script>
-    <!-- price-slider JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery-price-slider.js"></script>
-    <!-- meanmenu JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery.meanmenu.js"></script>
-    <!-- owl.carousel JS
-        ============================================ -->
-    <script src="~/js/admin/js/owl.carousel.min.js"></script>
-    <!-- sticky JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery.sticky.js"></script>
-    <!-- scrollUp JS
-        ============================================ -->
-    <script src="~/js/admin/js/jquery.scrollup.min.js"></script>
-    <!-- mCustomScrollbar JS
-        ============================================ -->
-    <script src="~/js/admin/js/scrollbar/jquery.mcustomscrollbar.concat.min.js"></script>
-    <script src="~/js/admin/js/scrollbar/mcustomscrollbar-active.js"></script>
-    <!-- metisMenu JS
-        ============================================ -->
-    <script src="~/js/admin/js/metismenu/metismenu.min.js"></script>
-    <script src="~/js/admin/js/metismenu/metismenu-active.js"></script>
-    <!-- morrisjs JS
-        ============================================ -->
-    <script src="~/js/admin/js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="~/js/admin/js/sparkline/jquery.charts-sparkline.js"></script>
-    <!-- calendar JS
-        ============================================ -->
-    <script src="~/js/admin/js/calendar/moment.min.js"></script>
-    <script src="~/js/admin/js/calendar/fullcalendar.min.js"></script>
-    <script src="~/js/admin/js/calendar/fullcalendar-active.js"></script>
-    <!-- tab JS
-        ============================================ -->
-    <script src="~/js/admin/js/tab.js"></script>
-    <!-- plugins JS
-        ============================================ -->
-    <script src="~/js/admin/js/plugins.js"></script>
-    <!-- main JS
-        ============================================ -->
-    <script src="~/js/admin/js/main.js"></script>
-    <script src="~/ckfinder/ckfinder.js"></script>
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-            }
-        }
-    </script>
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Bold,
-            Italic,
-            Font,
-            Paragraph,
-            Image,
-            ImageCaption,
-            ImageResize,
-            ImageStyle,
-            ImageToolbar,
-            LinkImage,
-            Link
-        } from 'ckeditor5';
-        ClassicEditor
-            .create(document.querySelector('#txtDescription'), {
-                plugins: [
-                    Essentials, Bold, Italic, Font, Paragraph,
-                    Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, LinkImage, Link
-                ],
-                toolbar: [
-                    'insertImage', 'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|'
-                ],
-                image: {
-                    insert: {
-                        type: 'auto'
-                    }
-                }
-            })
-            .then(editor => {
-                console.log('Editor was initialized', editor);
-                document.querySelector('form').addEventListener('submit', (event) => {
-                    const data = editor.getData(); // Lấy dữ liệu từ editor
-                    document.querySelector('#txtDescription').value = data; // Gán vào trường ẩn
-                });
-            })
-            .catch(error => {
-                console.error('There was a problem initializing the editor.', error);
-            });
-    </script>
-    <script type="text/javascript">
-        readImage(0);
-        const imgPreview = document.getElementById(`imgPreview_${0}`);
-        if (imgPreview && imgPreview.src && imgPreview.src.trim() !== "") {
-            imgPreview.style.display = 'block'; // Hiện ảnh đã chọn
-        }
-        function readImage(id) {
-            const inputElement = document.getElementById(`insertImage_${id}`);
-            const imgPreview = document.getElementById(`imgPreview_${id}`);
+}
 
-            if (inputElement && imgPreview) { // Kiểm tra xem phần tử có tồn tại hay không
-                inputElement.addEventListener('change', function (event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            imgPreview.src = e.target.result;
-                            imgPreview.style.display = 'block'; // Hiển thị ảnh đã chọn
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                });
-            } else {
-                console.error(`Element insertImage_${id} or imgPreview_${id} not found.`);
-            }
-        }
-    </script>
-</body>
-</html>
+<script src="~/js/admin/js/category.js"></script>

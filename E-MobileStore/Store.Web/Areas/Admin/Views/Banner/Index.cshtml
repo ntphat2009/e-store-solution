@@ -1,13 +1,11 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmBanner>
+﻿@model IEnumerable<Store.WebService.ViewModels.BannerVM>
 @using static Store.Web.Utility.StatusUltilities
 @{
     ViewData["Title"] = "Quản lí Banner";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    var totalCategory = ViewBag.TotalCategory;
+    var TotalBanner = ViewBag.TotalBanner;
 }
-@if (Model != null && Model.Any())
-{
-    int i = 0;
+
     <div class="breadcome-area" style="margin-left:20px">
         <div class="container-fluid">
             <div class="row">
@@ -41,14 +39,19 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
+                    <div style="float:right;" class="add-product">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addbanner">
+                            Thêm sản phẩm
+                        </button>
+                        <button class="btn btn-danger" id="deleteSelected">Xóa các sản phẩm đã chọn</button>
+                    </div>
                         <h4>Danh sách banner</h4>
-                        <div class="add-product">
-                            <a href="javascript:void(0);" onclick="openPopupAdd()">Thêm banner</a>
-                        </div>
+                   
+                    @if (Model != null && Model.Any())
+                    {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>STT</th>
                                     <th>Hình ảnh</th>
                                     <th>Tên danh mục</th>
                                     <th>Trạng thái</th>
@@ -60,8 +63,7 @@
                                 @foreach (var banner in Model)
                                 {
                                     <tr>
-                                        <td>@i</td>
-                                        <td><img class="lazyload" data-src="@banner.ImageURL" alt="@banner.BannerAlt" /></td>
+                                        <td><img class="lazyload" src="@Url.Content("~/uploads/images/"+@banner.ImageURL)" alt="@banner.BannerAlt" /></td>
                                         <td>@banner.CategoryName</td>
                                         <td>
                                             @GetStatusElement(banner.IsActive, banner.IsDeleted)
@@ -73,7 +75,6 @@
                                             <a data-toggle="tooltip" href="javascript:void(0);" data-product-url="@banner.Id" id="deleted" title="Xóa" class="pd-setting-ed"><i class="fa-solid fa-trash" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
-                                    i++;
                                 }
                             </tbody>
                         </table>
@@ -81,25 +82,45 @@
                             <ul class="pagination" id="pagination">
                             </ul>
                         </div>
-                        <div class="modal fade" id="productModal" data-bs-focus="false" aria-labelledby="productModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-body" style="padding:0px;">
-                                        <div id="modalContent" style="padding:0px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-}
+<div class="modal fade" id="productModal" data-bs-focus="false" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Cập nhật Banner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding:0px;">
+                <div id="modalContent" style="margin-left: -225px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal structure for add product -->
+<div class="modal fade" id="addbanner" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="min-width:1500px;right:70%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @await Html.PartialAsync("BannerAdd")
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/js/banner.js"></script>
+
 @section Scripts {
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function () {
-            const totalItem = @totalCategory;
+            const totalItem = @TotalBanner;
             const totalPage = Math.ceil(totalItem / 10);
             console.log(totalPage)
 
@@ -115,122 +136,11 @@
                     const pageId = this.id;
                     const uri = "/quan-li-banner?page=" + pageId + "&pageSize=10";
                     console.log(uri);
-                    loadCategories(uri)
+                    loadBanner(uri)
                     //
                 });
             });
             //
-            function loadCategories(uri) {
-                $.ajax({
-                    type: "GET",
-                    url: uri,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function (data) {
-                        var bannerList = $('#banner-list');
-                        console.log(data);
-                        var htmlContent = "";
-                        data.forEach(function (banner, index) {
-                            var IsActive = banner.isActive;
-                            var IsDelete = banner.isDeleted;
-                            if (IsActive == true && IsDelete == false) {
-                                var status = "<button class='pd-setting'>Hoạt động</button>";
-                            }
-                            else if (IsActive == false && IsDelete == false) {
-                                status = "<button class='ps-etting'>Tạm dừng</button>";
-                            }
-                            else {
-                                status = "<button class='ds-setting'>Đã xóa</button>";
-                            }
-                            var totalProduct = banner.products.count();
-                            htmlContent += `
-                                    <tr>
-                                        <td>${index}</td>
-                                         <td>
-                                         <img class="lazyload" data-src="${banner.imageURL}" alt="${banner.imageName}" /></td>
-                                          <td>${banner.name} </td>
-                                         <td>
-                                          ${status}
-                                         </td>
-                                         <td>
-                                                  ${banner.position}
-                                         </td>
-                                                 <td> ${totalProduct} </td>
-                                         <td>
-                                                 <a data-toggle="tooltip" type = "button" href = "/quan-li-banner/${banner.bannerUrl}" title = "chi tiết" class="pd-setting-ed" > <i class="fa-solid fa-circle-info" > </i></a>
-                                                         <a data-toggle="tooltip" title = "cập nhật" class="pd-setting-ed" href="javascript:void(0);" onclick="openPopupEdit('${banner.bannerUrl}')"> <i class="fa-solid fa-pen-to-square" aria-hidden="true"> </i></a >
-                                         <a data - toggle="tooltip" title = "Xóa" class="pd-setting-ed" > <i class="fa-solid fa-trash" aria-hidden="true"></i></a >
-                                         </td>
-                                     </tr>`;
-                            index++;
-                        });
-                        bannerList.html("");
-                        bannerList.html(htmlContent);
-                        bannerList.fadeIn();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        alert("check console to see proplem");
-                    }
-                });
-            };
-        });
-    </script>
-    <script>
-        function openPopupEdit(bannerId) {
-            $.ajax({
-                url: "/quan-li-banner/cap-nhat-banner",
-                data: { bannerId: bannerId },
-                type: "GET",
-                success: function (response) {
-                    $('#modalContent').html(response);
-                    $('#productModal').modal('show');
-                },
-                error: function () {
-                    alert("Có lỗi xảy ra khi tải dữ liệu.");
-                }
-            });
-        }
-        function openPopupAdd() {
-            $.ajax({
-                url: "/quan-li-banner/them-banner",
-                type: "GET",
-                success: function (response) {
-                    $('#modalContent').html(response);
-                    $('#productModal').modal('show');
-                },
-                error: function () {
-                    alert("Có lỗi xảy ra khi tải dữ liệu.");
-                }
-            });
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-            var getProductUrl = document.querySelectorAll("#deleted");
-            getProductUrl.forEach(item => {
-                item.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    const bannerId = this.getAttribute("data-product-url");
-                    if (confirm("Bạn muốn xóa sản phẩm này ?")) {
-                        fetch(`/quan-li-banner/xoa-banner?bannerId=${bannerId}`, {
-                            method: "PUT",
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    location.reload();
-                                }
-                                else {
-                                    alert("Đã có lỗi xảy ra khi xóa!")
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error);
-                                alert("Xóa sản phẩm thất bại.");
-                            });
-                    }
-                });
-            });
         });
     </script>
 }

@@ -26,6 +26,9 @@ builder.Services.AddScoped<IStoreApi, StoreApi>();
 builder.Services.AddScoped<IStoreWebService, StoreWebService>();
 builder.Services.AddScoped<IAuthenticationApi, AuthenticationApi>();
 builder.Services.AddScoped<IAuthenWebService, AuthenWebService>();
+builder.Services.AddScoped<IHomeViewService, HomeViewService>();
+builder.Services.AddScoped<IProductCategoryViewService, ProductCategoryViewService>();
+builder.Services.AddScoped<IProductDetailViewService, ProductDetailViewService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(option =>
 {
@@ -35,7 +38,7 @@ builder.Services.AddSession(option =>
 });
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 10485760; // Giới hạn kích thước file upload (ở đây là 10 MB)
+    options.MultipartBodyLengthLimit = 100485760; // Giới hạn kích thước file upload (ở đây là 10 MB)
 });
 builder.Services.AddCors(options =>
 {
@@ -73,12 +76,12 @@ app.UseCors("MyPolicy");
 //web admin
 app.MapControllerRoute(
     name: "login",
-    pattern: "admin/thong-tin-dang-nhap",
+    pattern: "quan-tri-vien/thong-tin-dang-nhap",
     defaults: new { area = "Admin", controller = "Authen", action = "Index" }
     );
 app.MapControllerRoute(
-    name: "admin",
-    pattern: "admin",
+    name: "quan-tri-vien",
+    pattern: "quan-tri-vien",
     defaults: new { area = "Admin", controller = "Home", action = "Index" }
     );
 //Web

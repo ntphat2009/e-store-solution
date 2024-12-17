@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmProduct>
+﻿@model IEnumerable<Store.WebService.ViewModels.ProductVM>
 @using static Store.Web.Utility.ProductsUtilities
 <div class="access-sg owl-carousel owl-loaded filtering">
     @foreach(var product in Model)
@@ -7,7 +7,7 @@
             <div class="item">
                 <a href="@Url.Action("Index", "ProductDetail", new { productUrl = product.ProductUrl })">
                     <div class="img-access-sg">
-                        <img class="ls-is-cached lazyload" data-src="@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageURL" alt="@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageName">
+                        <img class="ls-is-cached lazyload" data-src="@Url.Content("~/uploads/images/" +@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageURL)" alt="@product.ProductImages?.FirstOrDefault(x => x.Position.Trim() == "1")?.ImageName">
                     </div>
                     <h3>@product.ProductName</h3>
                     <span>

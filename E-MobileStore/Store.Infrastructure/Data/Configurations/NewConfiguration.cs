@@ -16,6 +16,7 @@ namespace Store.Infrastructure.Data.Configurations
             builder.ToTable("News");
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Title).IsUnique();
+            builder.HasIndex(t => t.IsActive);
             builder.HasOne(x => x.Category)
                 .WithMany(x=>x.News)
                 .HasForeignKey(x => x.CategoryId)

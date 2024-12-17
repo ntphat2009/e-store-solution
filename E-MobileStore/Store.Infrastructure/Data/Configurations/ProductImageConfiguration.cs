@@ -15,6 +15,7 @@ namespace Store.Infrastructure.Data.Configurations
         {
             builder.ToTable("ProductImages");
             builder.HasKey(x => x.Id);
+            builder.HasIndex(x => x.ImageURL);
             builder.HasOne(o => o.Product)
                 .WithMany(o => o.ProductImages)
                 .HasForeignKey(o => o.ProductId)

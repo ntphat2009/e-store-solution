@@ -13,7 +13,7 @@ namespace Store.WebService.APIs
         private string baseUrl = "http://localhost:5163";
         public string AddOrUpdateProductImage(string productId)
         {
-            return $"{baseUrl}/api/ProductImage/InsertOrUpdateProductImage?productId={productId}";
+            return $"{baseUrl}/api/ProductImages/InsertOrUpdateProductImage?productId={productId}";
         }
     }
 }

@@ -20,11 +20,11 @@ namespace Store.WebService.Services
             _flashSaleApi = flashSaleApi;
             _client = new HttpClient();
         }
-        public async Task<IEnumerable<vmFlashSale>> GetFlashSale(int page, int pageSize)
+        public async Task<List<FlashSaleVM>> GetFlashSale(int page, int pageSize)
         {
             try
             {
-                var flashSales = new List<vmFlashSale>();
+                var flashSales = new List<FlashSaleVM>();
                 var uri = _flashSaleApi.GetFlashSale(page, pageSize);
                 var response = await _client.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -35,7 +35,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var flashSale in responseApi.result)
                         {
-                            flashSales.Add(new vmFlashSale
+                            flashSales.Add(new FlashSaleVM
                             {
                                 Id = flashSale.Id,
                                 DateOpen = flashSale.DateOpen,
@@ -57,7 +57,7 @@ namespace Store.WebService.Services
             }
             catch (Exception ex)
             {
-                return new List<vmFlashSale>();
+                return new List<FlashSaleVM>();
             }
         }
     }

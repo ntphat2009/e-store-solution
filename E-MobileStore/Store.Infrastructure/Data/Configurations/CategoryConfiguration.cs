@@ -16,6 +16,7 @@ namespace Store.Infrastructure.Data.Configurations
             builder.ToTable("Categories");
             builder.HasKey(o => o.Id);
             builder.HasIndex(t => t.Name).IsUnique();
+            builder.HasIndex(t => t.IsActive);
         }
     }
 }

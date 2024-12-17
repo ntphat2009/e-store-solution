@@ -1,26 +1,31 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmStore>
+﻿@model IEnumerable<Store.WebService.ViewModels.StoreVM>
 
 <div class="list-sieuthi">
     <div class="center-page">
         <div class="store-province">
-            <b class="count-store">Mở bán tại @Model.Count() cửa hàng</b>
-            <div>
-                <span class="sText toggle-btn">Chọn tỉnh thành</span>
-                <ul class="city-list" style="display: none;">
-                    @if (Model != null && Model.Any())
-                    {
-                        foreach (var city in Model.Select(m => m.City).Distinct())
+            @if (Model != null && Model.Any())
+            {
+                <b class="count-store">Mở bán tại @Model.Count() cửa hàng</b>
+                <div>
+                    <span class="sText toggle-btn">Chọn tỉnh thành</span>
+                    <ul class="city-list" style="display: none;">
+
+                        @foreach (var city in Model.Select(m => m.City).Distinct())
                         {
                             <li class="option" data-city="@city">@city</li>
                         }
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="store-list" id="store-list">
-            @if (Model != null && Model.Any())
+                    </ul>
+                </div>
+            }
+            else
             {
-                foreach (var store in Model)
+                <b class="count-store">Danh sách các cửa hàng hiện không khả dụng</b>
+            }
+        </div>
+        @if (Model != null && Model.Any())
+        {
+            <div class="store-list" id="store-list">
+                @foreach (var store in Model)
                 {
                     <p class="store" data-city="@store.City">
                         <a href="/@store.Id">
@@ -33,9 +38,15 @@
                         </a>
                     </p>
                 }
-            }
-        </div>
-        <a href="javascript:;" class="viewmore">Xem tất cả @Model.Count() cửa hàng</a>
+            </div>
+            <a href="javascript:;" class="viewmore">Xem tất cả @Model.Count() cửa hàng</a>
+        }
+        else
+        {
+            <div class="image-loading">
+                <img width="100px" height="100px" class="lazyload" data-src="https://i.gifer.com/ZZ5H.gif" />
+            </div>
+        }
     </div>
 </div>
 

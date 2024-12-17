@@ -5,7 +5,7 @@
         var u = $(".click-search input").val().replace(inValidChar, ""),
             i = u.trim().toString().toLowerCase(),
             r = $(".list-sg-search"),
-            t = $(".product-list");
+            t = $('#product-list');
 
         if (i.length < MIN_SSKEYWORD_LENGTH) {
             t.removeClass("active");
@@ -49,6 +49,7 @@
                             var firstImageURL = product.productImages[0]?.imageURL || 'default-image.jpg';
                             htmlContent += `
                             <tr>
+                                <td><input type="checkbox" class="productCheckbox" data-product-url="${product.categoryName}" /></td>
                                 <td>${index}</td>
                                 <td><img class="lazyload" data-src="${imageActive}" alt="${imageActive}" /></td>
                                 <td>${product.productName} </td>

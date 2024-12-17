@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Store.WebService.Services.Interfaces
 {
-	public interface IAuthenWebService
-	{
-		Task<string> SignIn(SignInDTO signInDTO);
-		Task<string> SignUp(SignUpDTO signUpDTO);
-		Task<vmUser> GetUser(string username);
-	}
+    public interface IAuthenWebService
+    {
+        Task<string> SignIn(SignInDTO signInDTO);
+        Task<string> SignUp(SignUpDTO signUpDTO);
+        Task<UserVM> GetUser(string username);
+    }
 }

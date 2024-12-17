@@ -4584,3 +4584,13 @@ body {
 html, body {
     overflow-x: hidden;
 }
+.image-loading{
+    display:flex;
+    justify-content:center;
+    margin-top:50px;
+}
+.image-loading p{
+   text-align:center;
+   font-size:20px;
+   color:wheat;
+}

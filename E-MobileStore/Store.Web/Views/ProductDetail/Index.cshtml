@@ -1,4 +1,4 @@
-﻿@model Store.Web.ViewsModel.DetailProductVM
+﻿@model Store.WebService.ViewModels.ProductDetailVM
 @{
     ViewData["Title"] = ViewBag.productName;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,150 +7,149 @@
 @if (Model.Product != null)
 {
     @await Html.PartialAsync("IntroDetail", Model.Product)
-
-}
-<section>
-    <div class="descrip">
-        <strong class="combo-title sg-access" style="margin-top:20px">Xem thêm @Model.Product.CategoryName  khác</strong>
-        @await Html.PartialAsync("SuggestProduct", Model.SuggestProduct)
-        <div class="border7"></div>
-        @await Html.PartialAsync("Description", Model.Product)
-        <div class="wrap_rating wrap_border" data-ismb="false" data-objectid="242826" data-objecttype="2" data-irt="true" data-siteid="16" data-urlimg="https://cdn.tgdd.vn/Products/Images/2162/242826/s16/bluetooth-jbl-go-3-xanh-xanh-tn-650x650.png" data-url="http://www.topzone.vn/loa/bluetooth-jbl-go-3-xanh-den" data-title="Loa Bluetooth JBL Go 3">
-            <div class=" bg-coverrate"></div>
-            <div class="rating-topzone rc-topzone">
-
-                <div class="rating-topzonecr-uncmt">
-                    <h2 class="rating-topzonecr-title">
-                        Đánh giá sản phẩm này
-                    </h2>
-                    <h3>Nếu đã mua sản phẩm này tại TopZone. Hãy đánh giá ngay để giúp hàng ngàn người chọn mua hàng tốt nhất bạn nhé!</h3>
-                    <ul class="rating-topzonecr-star">
-                        <li data-val="1" class="click-openpopup">
-                            <i class="iconcmt-unstarlist"></i>
-                            <p data-val="1">Rất tệ</p>
-                        </li>
-                        <li data-val="2" class="click-openpopup">
-                            <i class="iconcmt-unstarlist"></i>
-                            <p data-val="2">Tệ</p>
-                        </li>
-                        <li data-val="3" class="click-openpopup">
-                            <i class="iconcmt-unstarlist"></i>
-                            <p data-val="3">Tạm ổn</p>
-                        </li>
-                        <li data-val="4" class="click-openpopup">
-                            <i class="iconcmt-unstarlist"></i>
-                            <p data-val="4">Tốt</p>
-                        </li>
-                        <li data-val="5" class="click-openpopup">
-                            <i class="iconcmt-unstarlist"></i>
-                            <p data-val="5">Rất tốt</p>
-                        </li>
-                    </ul>
-                </div><div class="popup-rating-topzone" style="display: none;">
-                    <div class="close-rate"></div>
-                    <p class="txt">Đánh giá sản phẩm</p>
-                    <div class="bproduct">
-                        <div class="img">
-                            <img class="lazyload" data-src="https://cdn.tgdd.vn/Products/Images/2162/242826/s16/bluetooth-jbl-go-3-xanh-xanh-tn-650x650.png" alt="@Model.Product.ProductName">
-                        </div>
-
-                        <h3>Loa Bluetooth JBL Go 3</h3>
-                    </div>
-                    <ul class="rating-topzonecr-star">
-                        <li data-val="1">
-                            <i class="iconcmt-unstarlist active"></i>
-                            <p data-val="1">Rất tệ</p>
-                        </li>
-                        <li data-val="2">
-                            <i class="iconcmt-unstarlist active"></i>
-                            <p data-val="2">Tệ</p>
-                        </li>
-                        <li data-val="3">
-                            <i class="iconcmt-unstarlist active"></i>
-                            <p data-val="3">Tạm ổn</p>
-                        </li>
-                        <li data-val="4">
-                            <i class="iconcmt-unstarlist active"></i>
-                            <p data-val="4" class="active-slt">Tốt</p>
-                        </li>
-                        <li data-val="5">
-                            <i class="iconcmt-unstarlist"></i>
-                            <p data-val="5">Rất tốt</p>
-                        </li>
-                    </ul>
-                    <form action="" class="form-rate">
-                        <div class="inputrating__group">
-                            <textarea class="fRContent" name="fRContent" placeholder="Mời bạn chia sẻ thêm cảm nhận..."></textarea>
-                            <div class="txtcount__box">
-                                <span class="ct" style="display: none;">0 chữ</span>
+    <section>
+        <div class="descrip">
+            <strong class="combo-title sg-access" style="margin-top:20px">Xem thêm @Model.Product.CategoryName  khác</strong>
+            @await Html.PartialAsync("SuggestProduct", Model.SuggestProduct)
+            <div class="border7"></div>
+            @await Html.PartialAsync("Description", Model.Product)
+            <div class="wrap_rating wrap_border" data-ismb="false" data-objectid="242826" data-objecttype="2" data-irt="true" data-siteid="16" data-urlimg="https://cdn.tgdd.vn/Products/Images/2162/242826/s16/bluetooth-jbl-go-3-xanh-xanh-tn-650x650.png" data-url="http://www.topzone.vn/loa/bluetooth-jbl-go-3-xanh-den" data-title="Loa Bluetooth JBL Go 3">
+                <div class=" bg-coverrate"></div>
+                <div class="rating-topzone rc-topzone">
+                    <div class="rating-topzonecr-uncmt">
+                        <h2 class="rating-topzonecr-title">
+                            Đánh giá sản phẩm này
+                        </h2>
+                        <h3>Nếu đã mua sản phẩm này tại TopZone. Hãy đánh giá ngay để giúp hàng ngàn người chọn mua hàng tốt nhất bạn nhé!</h3>
+                        <ul class="rating-topzonecr-star">
+                            <li data-val="1" class="click-openpopup">
+                                <i class="iconcmt-unstarlist"></i>
+                                <p data-val="1">Rất tệ</p>
+                            </li>
+                            <li data-val="2" class="click-openpopup">
+                                <i class="iconcmt-unstarlist"></i>
+                                <p data-val="2">Tệ</p>
+                            </li>
+                            <li data-val="3" class="click-openpopup">
+                                <i class="iconcmt-unstarlist"></i>
+                                <p data-val="3">Tạm ổn</p>
+                            </li>
+                            <li data-val="4" class="click-openpopup">
+                                <i class="iconcmt-unstarlist"></i>
+                                <p data-val="4">Tốt</p>
+                            </li>
+                            <li data-val="5" class="click-openpopup">
+                                <i class="iconcmt-unstarlist"></i>
+                                <p data-val="5">Rất tốt</p>
+                            </li>
+                        </ul>
+                    </div><div class="popup-rating-topzone" style="display: none;">
+                        <div class="close-rate"></div>
+                        <p class="txt">Đánh giá sản phẩm</p>
+                        <div class="bproduct">
+                            <div class="img">
+                                <img class="lazyload" data-src="https://cdn.tgdd.vn/Products/Images/2162/242826/s16/bluetooth-jbl-go-3-xanh-xanh-tn-650x650.png" alt="@Model.Product.ProductName">
                             </div>
+
+                            <h3>Loa Bluetooth JBL Go 3</h3>
                         </div>
-
-                        <div class="form-column">
-
-
-                            <div class="upload__box  ">
-                                <div class="upload__btn-box">
-                                    <label class="upload__btn">
-                                        <a href="javascript:void(0)" class="send-img">
-                                            <i class="iconcmt-camera"></i>
-                                            <p>Gửi ảnh thực tế <span>(tối đa 3 ảnh)</span></p>
-                                        </a>
-                                        <input id="hdFileRatingUpload" name="hdfRatingImg" type="file" multiple="" accept="image/x-png, image/gif, image/jpeg" data-max_length="3" class="upload__inputfile hide">
-
-                                        <input type="hidden" name="hdfRatingImg" id="hdfRatingImg" class="hdfRatingImg" value="">
-                                        <input type="hidden" name="hdUrl" value="http://www.topzone.vn/loa/bluetooth-jbl-go-3-xanh-den">
-                                    </label>
+                        <ul class="rating-topzonecr-star">
+                            <li data-val="1">
+                                <i class="iconcmt-unstarlist active"></i>
+                                <p data-val="1">Rất tệ</p>
+                            </li>
+                            <li data-val="2">
+                                <i class="iconcmt-unstarlist active"></i>
+                                <p data-val="2">Tệ</p>
+                            </li>
+                            <li data-val="3">
+                                <i class="iconcmt-unstarlist active"></i>
+                                <p data-val="3">Tạm ổn</p>
+                            </li>
+                            <li data-val="4">
+                                <i class="iconcmt-unstarlist active"></i>
+                                <p data-val="4" class="active-slt">Tốt</p>
+                            </li>
+                            <li data-val="5">
+                                <i class="iconcmt-unstarlist"></i>
+                                <p data-val="5">Rất tốt</p>
+                            </li>
+                        </ul>
+                        <form action="" class="form-rate">
+                            <div class="inputrating__group">
+                                <textarea class="fRContent" name="fRContent" placeholder="Mời bạn chia sẻ thêm cảm nhận..."></textarea>
+                                <div class="txtcount__box">
+                                    <span class="ct" style="display: none;">0 chữ</span>
                                 </div>
-                                <div class="upload__img-wrap hide"></div>
                             </div>
 
-                            <div class="agree"><span></span><p>Tôi sẽ giới thiệu sản phẩm cho bạn bè, người thân</p></div>
-                        </div>
+                            <div class="form-column">
 
-                        <div class="item">
-                            <input type="text" class="fRName" name="fRName" placeholder="Họ tên (bắt buộc)">
-                            <input type="text" class="fRPhone" onkeypress="validateOnlyNumber(event)" name="fRPhone" placeholder="Số điện thoại (bắt buộc)">
-                            <input type="hidden" name="hdfProductID" value="242826">
-                            <input name="submit" type="hidden">
-                            <div class="agree custom-cursor-on-hover" id="agree-policy-rating">
-                                <span></span><p>Tôi đồng ý với <a href="/chinh-sach-xu-ly-du-lieu-ca-nhan" target="_blank">Chính sách xử lý dữ liệu cá nhân</a> của TopZone</p>
+
+                                <div class="upload__box  ">
+                                    <div class="upload__btn-box">
+                                        <label class="upload__btn">
+                                            <a href="javascript:void(0)" class="send-img">
+                                                <i class="iconcmt-camera"></i>
+                                                <p>Gửi ảnh thực tế <span>(tối đa 3 ảnh)</span></p>
+                                            </a>
+                                            <input id="hdFileRatingUpload" name="hdfRatingImg" type="file" multiple="" accept="image/x-png, image/gif, image/jpeg" data-max_length="3" class="upload__inputfile hide">
+
+                                            <input type="hidden" name="hdfRatingImg" id="hdfRatingImg" class="hdfRatingImg" value="">
+                                            <input type="hidden" name="hdUrl" value="http://www.topzone.vn/loa/bluetooth-jbl-go-3-xanh-den">
+                                        </label>
+                                    </div>
+                                    <div class="upload__img-wrap hide"></div>
+                                </div>
+
+                                <div class="agree"><span></span><p>Tôi sẽ giới thiệu sản phẩm cho bạn bè, người thân</p></div>
                             </div>
+
+                            <div class="item">
+                                <input type="text" class="fRName" name="fRName" placeholder="Họ tên (bắt buộc)">
+                                <input type="text" class="fRPhone" onkeypress="validateOnlyNumber(event)" name="fRPhone" placeholder="Số điện thoại (bắt buộc)">
+                                <input type="hidden" name="hdfProductID" value="242826">
+                                <input name="submit" type="hidden">
+                                <div class="agree custom-cursor-on-hover" id="agree-policy-rating">
+                                    <span></span><p>Tôi đồng ý với <a href="/chinh-sach-xu-ly-du-lieu-ca-nhan" target="_blank">Chính sách xử lý dữ liệu cá nhân</a> của TopZone</p>
+                                </div>
+                            </div>
+
+                            <button type="button" id="submitrt" class="submit send-rate disabled" style="display: none;">Gửi đánh giá</button><div class="dcap"><button type="button" id="submitrt" class="submit send-rate disabled">Gửi đánh giá</button></div>
+
+                            <p class="intro-txt"><a target="&quot;_blank&quot;" href="/quy-dinh-dang-binh-luan">Quy định đánh giá</a><a href="/bao-mat-thong-tin">Chính sách bảo mật thông tin</a></p>
+                        </form>
+                    </div>
+                    <div class="bgcover-errorForm"></div>
+
+                    <div class="popup-errorForm">
+                        <p class="content">Cảm nhận về sản phẩm chưa được nhập, bạn sẵn lòng chia sẻ thêm chứ?</p>
+                        <div class="btn-errorForm">
+                            <span class="unsend-rate" onclick="popupNotiHide()">Không, gửi đánh giá</span>
+                            <span class="ctnsend-rate ctnsend-continue">Có, viết cảm nhận</span>
                         </div>
-
-                        <button type="button" id="submitrt" class="submit send-rate disabled" style="display: none;">Gửi đánh giá</button><div class="dcap"><button type="button" id="submitrt" class="submit send-rate disabled">Gửi đánh giá</button></div>
-
-                        <p class="intro-txt"><a target="&quot;_blank&quot;" href="/quy-dinh-dang-binh-luan">Quy định đánh giá</a><a href="/bao-mat-thong-tin">Chính sách bảo mật thông tin</a></p>
-                    </form>
-                </div>
-                <div class="bgcover-errorForm"></div>
-
-                <div class="popup-errorForm">
-                    <p class="content">Cảm nhận về sản phẩm chưa được nhập, bạn sẵn lòng chia sẻ thêm chứ?</p>
-                    <div class="btn-errorForm">
-                        <span class="unsend-rate" onclick="popupNotiHide()">Không, gửi đánh giá</span>
-                        <span class="ctnsend-rate ctnsend-continue">Có, viết cảm nhận</span>
                     </div>
-                </div>
 
-                <div class="popup-errorForm popup-incomplete">
-                    <p class="content">Chờ đã! Bạn chưa gửi đánh giá của mình, bạn có muốn gửi đi không?</p>
-                    <div class="btn-errorForm">
-                        <span class="unsend-rate" onclick="popupNotiHide()">Có</span>
-                        <span class="ctnsend-rate">Không</span>
+                    <div class="popup-errorForm popup-incomplete">
+                        <p class="content">Chờ đã! Bạn chưa gửi đánh giá của mình, bạn có muốn gửi đi không?</p>
+                        <div class="btn-errorForm">
+                            <span class="unsend-rate" onclick="popupNotiHide()">Có</span>
+                            <span class="ctnsend-rate">Không</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bgcover-success"></div>
-                <div class="popup-success">
-                    <h3 class="txt"><b>Cảm ơn bạn đã đánh giá sản phẩm</b></h3>
-                    <p class="content">Hệ thống sẽ kiểm duyệt đánh giá của bạn về <b>@Model.Product.ProductName</b> và đăng lên sau 24h nếu phù hợp với <a href="/quy-dinh-dang-binh-luan">quy định đánh giá</a></p>
-                    <div class="close-popup-success" onclick="popupSuccessHide()">Đóng</div>
+                    <div class="bgcover-success"></div>
+                    <div class="popup-success">
+                        <h3 class="txt"><b>Cảm ơn bạn đã đánh giá sản phẩm</b></h3>
+                        <p class="content">Hệ thống sẽ kiểm duyệt đánh giá của bạn về <b>@Model.Product.ProductName</b> và đăng lên sau 24h nếu phù hợp với <a href="/quy-dinh-dang-binh-luan">quy định đánh giá</a></p>
+                        <div class="close-popup-success" onclick="popupSuccessHide()">Đóng</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+}
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {

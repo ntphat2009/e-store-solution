@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmProduct>
+﻿@model IEnumerable<Store.WebService.ViewModels.ProductVM>
 
 @using static Store.Web.Utility.ProductsUtilities
 	<ul class="listing-cate crm-cate ">
@@ -7,7 +7,7 @@
 			<li class="item show">
 			<a href="@Url.Action("Index","ProductDetail",new {categoryUrl=product.CategoryUrl, productUrl = product.ProductUrl })" class="main-contain">
 					<div class="item-img item-img_44">
-					<img class="thumb ls-is-cached lazyload" width="235" height="235" alt="@product.ProductImages?.FirstOrDefault(x=>x.Position=="1")?.ImageName" data-src="@product.ProductImages?.FirstOrDefault(x => x.Position == "1")?.ImageURL">
+					<img class="thumb ls-is-cached lazyload" width="235" height="235" alt="@product.ProductImages?.FirstOrDefault(x=>x.Position=="1")?.ImageName" data-src="@Url.Content("~/uploads/images/" + @product.ProductImages?.FirstOrDefault(x => x.Position == "1")?.ImageURL)">
 					</div>
 					<h3>
 						@product.ProductName

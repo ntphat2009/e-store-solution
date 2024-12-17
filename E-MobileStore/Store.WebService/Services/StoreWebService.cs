@@ -22,11 +22,11 @@ namespace Store.WebService.Services
             _client = new HttpClient();
         }
 
-        public async Task<List<vmStore>> GetStoreList(int page, int pageSize)
+        public async Task<List<StoreVM>> GetStoreList(int page, int pageSize)
         {
             try
             {
-                var stores = new List<vmStore>();
+                var stores = new List<StoreVM>();
                 var uri = _storeApi.GetStoreList(page, pageSize);
                 var response = await _client.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -37,7 +37,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var store in responseApi.result)
                         {
-                            stores.Add(new vmStore()
+                            stores.Add(new StoreVM()
                             {
                                 Adress = store.Adress,
                                 District = store.District,
@@ -60,7 +60,7 @@ namespace Store.WebService.Services
             }
             catch (Exception ex)
             {
-                return new List<vmStore>();
+                return new List<StoreVM>();
             }
         }
     }

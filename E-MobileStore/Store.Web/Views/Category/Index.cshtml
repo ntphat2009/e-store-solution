@@ -1,89 +1,102 @@
-﻿@model Store.Web.ViewsModel.ProductsByCateVM
+﻿@model Store.WebService.ViewModels.ProductCategoryVM
 @{
-    ViewData["Title"] = ViewBag.CategoryName;
+    ViewData["Title"] = Model.Products?.FirstOrDefault()?.CategoryName;
 	Layout = "_Layout";
-	var totalProduct = ViewBag.TotalProduct;
+	var totalProduct = Model.TotalProduct;
 }
 <link href="~/css/layout/category.css" rel="stylesheet" />
 <style>
     .item {
         display: none;
     }
-        /* Ẩn tất cả sản phẩm ban đầu */
         .item.show {
             display: block;
         }
-    /* Hiển thị sản phẩm khi có lớp 'show' */
 </style>
 
 <section>
     <div style="display:flex;justify-content:center" class="m-2">
-
         <img  width="90" height="90" src="https://www.shareicon.net/data/2016/02/07/281232_apple_512x512.png" alt="Alternate Text" />
         <h2 style="color: #fff;text-align: center;display: block;font-size: 40px;margin-top:40px">
-            @Model.Products.FirstOrDefault()?.CategoryName
+            @Model.Products?.FirstOrDefault()?.CategoryName
         </h2>
     </div>
    
 
 
     <div class="slide-cate owl-carousel owl-theme owl-loaded owl-drag">
-       @await Html.PartialAsync("BannerCate",Model.Banners)
+        @if (Model.Banners.Any())
+        {
+            @await Html.PartialAsync("BannerCate", Model.Banners)
+        }
     </div>
-	<div class="filter-cate">
-		<div class="ft-sort">
-			<a class="sText toggle-btn" style=" cursor: pointer;">Xếp theo: Mới nhất</a>
-            <ul class="list-sort" style="display: none; z-index:10">
-                <li>
-                    <a href="#" class="check" data-sort="date_desc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
-                        <i class="topzone-stick"></i>
-                        <span>Mới ra mắt</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-sort="date_asc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
-                        <i class="topzone-stick"></i>
-                        <span>Mở bán Cũ - Mới</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-sort="name_asc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
-                        <i class="topzone-stick"></i>
-                        <span>Tên A - Z</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-sort="name_desc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
-                        <i class="topzone-stick"></i>
-                        <span>Tên Z - A</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-sort="price_asc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
-                        <i class="topzone-stick"></i>
-                        <span>Giá tăng dần</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-sort="price_desc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
-                        <i class="topzone-stick"></i>
-                        <span>Giá giảm dần</span>
-                    </a>
-                </li>
-            </ul>
+    @if (Model.Products.Any())
+    {
+        <div class="filter-cate">
+            <div class="ft-sort">
+                <a class="sText toggle-btn" style=" cursor: pointer;">Xếp theo: Mới nhất</a>
+                <ul class="list-sort" style="display: none; z-index:10">
+                    <li>
+                        <a href="#" class="check" data-sort="date_desc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
+                            <i class="topzone-stick"></i>
+                            <span>Mới ra mắt</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sort="date_asc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
+                            <i class="topzone-stick"></i>
+                            <span>Mở bán Cũ - Mới</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sort="name_asc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
+                            <i class="topzone-stick"></i>
+                            <span>Tên A - Z</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sort="name_desc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
+                            <i class="topzone-stick"></i>
+                            <span>Tên Z - A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sort="price_asc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
+                            <i class="topzone-stick"></i>
+                            <span>Giá tăng dần</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sort="price_desc" data-id="@Model.Products.FirstOrDefault()?.CategoryUrl">
+                            <i class="topzone-stick"></i>
+                            <span>Giá giảm dần</span>
+                        </a>
+                    </li>
+                </ul>
 
-		</div>
-	</div>
-	
-	<div class="container-productbox" id="productListContainer">
-		@await Html.PartialAsync("ProductList", Model.Products)
-		
-	</div>
-	<div class="view-more">
-			<a href="#" id="loadMoreLink">
-				Xem thêm <span class="remain">@(totalProduct-Model.Products.Count())</span> sản phẩm
-			</a>
-	</div>
+            </div>
+        </div>
+
+        <div class="container-productbox" id="productListContainer">
+            @await Html.PartialAsync("ProductList", Model.Products)
+
+        </div>
+        @if (totalProduct > 6)
+        {
+            <div class="view-more">
+                <a href="#" id="loadMoreLink">
+                    Xem thêm <span class="remain">@(totalProduct - Model.Products.Count())</span> sản phẩm
+                </a>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="image-container" style="display: flex;justify-content: center;">
+            <img width="200px" height="200px" src="https://i.gifer.com/ZZ5H.gif">
+        </div>
+    }
+
     <script type="text/javascript">
         window.dataLayer = window.dataLayer || [];
         dataLayer.push({
@@ -91,7 +104,6 @@
             'pageCategoryLv1': 'Mac'
         })
     </script>
-
 </section>
 
 @section Scripts {
@@ -123,7 +135,7 @@
                     })
                     this.classList.add("check");
                     listSort.style.display = "none";
-                    const uri = urlRoot + "/" + categoryUrl + "&sortBy=" + sortBy + "&pageSize=" + pageSize;
+                    const uri = `${urlRoot}/${categoryUrl}?sortBy=${sortBy}&pageSize=${pageSize}`;
                     console.log("uri", uri)
                     loadProducts(uri);
                     updateViewMoreBuuton();

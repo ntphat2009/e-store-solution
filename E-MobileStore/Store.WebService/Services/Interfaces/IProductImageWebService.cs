@@ -9,7 +9,7 @@ namespace Store.WebService.Services.Interfaces
 {
     public interface IProductImageWebService
     {
-        Task<string> InserOrUpdateProduct(ProductImageDTO imageDTO,string productId);
+        Task<string> InserOrUpdateProduct(ProductImageDTO imageDTO, string productId);
 
     }
 }

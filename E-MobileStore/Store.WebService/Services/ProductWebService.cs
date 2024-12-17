@@ -22,13 +22,13 @@ namespace Store.WebService.Services
         private readonly IProductApi _productApi;
         private readonly IProductImageApi _productImageApi;
 
-        public ProductWebService( IProductApi productApi, IProductImageApi productImageApi)
+        public ProductWebService(IProductApi productApi, IProductImageApi productImageApi)
         {
             _httpClient = new HttpClient();
             _productApi = productApi;
             _productImageApi = productImageApi;
         }
-        public async Task<vmProduct> GetProductDetail(string productUrl)
+        public async Task<ProductVM> GetProductDetail(string productUrl)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Store.WebService.Services
                     if (productresponse != null && productresponse.result != null)
                     {
                         var product = productresponse.result;
-                        return new vmProduct()
+                        return new ProductVM()
                         {
                             ProductId = product.Id,
                             ProductName = product.Name,
@@ -65,11 +65,11 @@ namespace Store.WebService.Services
                         };
                     }
                 }
-                return new vmProduct();
+                return new ProductVM();
             }
             catch
             {
-                return new vmProduct();
+                return new ProductVM();
             }
         }
 
@@ -117,57 +117,52 @@ namespace Store.WebService.Services
                 return 0;
             }
         }
-        public async Task<List<vmProduct>> GetProductListByCateUrl(string categoryUrl, int page, int pageSize, string? sortBy)
+        public async Task<List<ProductVM>> GetProductListByCateUrl(string categoryUrl, int page, int pageSize, string? sortBy)
         {
-            try
+
+            var products = new List<ProductVM>();
+            var uri = _productApi.GetProductListByCateUrl(categoryUrl, page, pageSize, sortBy);
+            var response = await _httpClient.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
             {
-                var products = new List<vmProduct>();
-                var uri = _productApi.GetProductListByCateUrl(categoryUrl, page, pageSize, sortBy);
-                var response = await _httpClient.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
+                var content = await response.Content.ReadAsStringAsync();
+                var productresponse = JsonConvert.DeserializeObject<ProductResponse>(content);
+                if (productresponse != null && productresponse.result.Count > 0)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var productresponse = JsonConvert.DeserializeObject<ProductResponse>(content);
-                    if (productresponse != null && productresponse.result.Count > 0)
+                    foreach (var product in productresponse.result)
                     {
-                        foreach (var product in productresponse.result)
+                        products.Add(new ProductVM
                         {
-                            products.Add(new vmProduct
-                            {
-                                ProductId = product.Id,
-                                ProductName = product.Name,
-                                Price = product.Price,
-                                ShortDesc = product.ShortDesc,
-                                Description = product.Description,
-                                CategoryId = product.CategoryId,
-                                CategoryName = product.Category?.Name,
-                                ProductUrl = product.ProductUrl,
-                                CategoryUrl = product.Category?.CategoryUrl,
-                                Quantity = product.Quantity,
-                                ProductImages = product.ProductImages,
-                                PriceSale = product.PriceSale,
-                                IsDeleted = product.IsDeleted,
-                                IsActive = product.IsActive,
-                                CreatedBy = product.CreatedBy,
-                                CreatedDate = product.CreatedDate.ToLocalTime().ToString("HH:mm dd/MM/yyyy"),
-                                UpdatedBy = product.UpdatedBy,
-                                UpdatedDate = product.UpdatedDate.ToLocalTime().ToString("HH:mm dd/MM/yyyy"),
-                            });
-                        }
+                            ProductId = product.Id,
+                            ProductName = product.Name,
+                            Price = product.Price,
+                            ShortDesc = product.ShortDesc,
+                            Description = product.Description,
+                            CategoryId = product.CategoryId,
+                            CategoryName = product.Category?.Name,
+                            ProductUrl = product.ProductUrl,
+                            CategoryUrl = product.Category?.CategoryUrl,
+                            Quantity = product.Quantity,
+                            ProductImages = product.ProductImages,
+                            PriceSale = product.PriceSale,
+                            IsDeleted = product.IsDeleted,
+                            IsActive = product.IsActive,
+                            CreatedBy = product.CreatedBy,
+                            CreatedDate = product.CreatedDate.ToLocalTime().ToString("HH:mm dd/MM/yyyy"),
+                            UpdatedBy = product.UpdatedBy,
+                            UpdatedDate = product.UpdatedDate.ToLocalTime().ToString("HH:mm dd/MM/yyyy"),
+                        });
                     }
                 }
-                return products;
             }
-            catch (Exception ex)
-            {
-                return new List<vmProduct>();
-            }
+            return products;
+
         }
-        public async Task<List<vmProduct>> GetProductSearch(string search, int page, int pageSize)
+        public async Task<List<ProductVM>> GetProductSearch(string search, int page, int pageSize)
         {
             try
             {
-                var products = new List<vmProduct>();
+                var products = new List<ProductVM>();
                 var uri = _productApi.GetProductSearch(search, page, pageSize);
                 var response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -178,7 +173,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var product in productresponse.result)
                         {
-                            products.Add(new vmProduct
+                            products.Add(new ProductVM
                             {
                                 ProductId = product.Id,
                                 ProductName = product.Name,
@@ -187,6 +182,8 @@ namespace Store.WebService.Services
                                 Description = product.Description,
                                 CategoryId = product.CategoryId,
                                 CategoryName = product.Category?.Name,
+                                CategoryUrl = product.Category.CategoryUrl,
+                                ProductUrl = product.ProductUrl,
                                 Quantity = product.Quantity,
                                 ProductImages = product.ProductImages,
                                 PriceSale = product.PriceSale,
@@ -204,15 +201,15 @@ namespace Store.WebService.Services
             }
             catch (Exception ex)
             {
-                return new List<vmProduct>();
+                return new List<ProductVM>();
             }
         }
 
-        public async Task<List<vmProduct>> GetProductBySaleId(int flashsaleId)
+        public async Task<List<ProductVM>> GetProductBySaleId(int flashsaleId)
         {
             try
             {
-                var products = new List<vmProduct>();
+                var products = new List<ProductVM>();
                 var uri = _productApi.GetProductBySaleId(flashsaleId);
                 var response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -223,7 +220,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var product in productresponse.result)
                         {
-                            products.Add(new vmProduct
+                            products.Add(new ProductVM
                             {
                                 ProductId = product.ProductId,
                                 ProductName = product.Product.Name,
@@ -250,15 +247,15 @@ namespace Store.WebService.Services
             }
             catch
             {
-                return new List<vmProduct>();
+                return new List<ProductVM>();
             }
         }
 
-        public async Task<List<vmProduct>> GetProductList(int page, int pageSize, string? sortBy)
+        public async Task<List<ProductVM>> GetProductList(int page, int pageSize, string? sortBy)
         {
             try
             {
-                var products = new List<vmProduct>();
+                var products = new List<ProductVM>();
                 var uri = _productApi.GetProductList(page, pageSize, sortBy);
                 var response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -269,7 +266,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var product in productresponse.result)
                         {
-                            products.Add(new vmProduct
+                            products.Add(new ProductVM
                             {
                                 ProductId = product.Id,
                                 ProductName = product.Name,
@@ -297,7 +294,7 @@ namespace Store.WebService.Services
             }
             catch
             {
-                return new List<vmProduct>();
+                return new List<ProductVM>();
             }
         }
         public async Task<string> InserOrUpdateProduct(ProductDTO productDTO, List<ProductImageDTO> Images)
@@ -367,10 +364,6 @@ namespace Store.WebService.Services
                 if (response.IsSuccessStatusCode && content != null)
                 {
                     result = content.message.ToString();
-                }
-                else
-                {
-                    result = content.message;
                 }
                 return result;
             }

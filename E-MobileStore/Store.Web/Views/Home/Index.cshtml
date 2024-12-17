@@ -1,237 +1,256 @@
-﻿@model Store.Web.ViewsModel.HomeVM
+﻿@model Store.WebService.ViewModels.HomeVM
 @{
-    ViewData["Title"] = "Trang chủ";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Trang chủ";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var data = Model;
 }
-
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-@await Html.PartialAsync("HomeSlider", Model.HomeSlider)
-<div class="flashsale-block" id="flashsale">
-    @await Html.PartialAsync("FlashSale", Model.FlashSale);
+@if(!Model.ChosseCate.Any() && !Model.FlashSale.Any() && !Model.HomeSlider.Any() && !Model.ProductByCate.Any() && !Model.TekZone.Any() && !Model.Stores.Any())
+{
+	<p class="text-danger text-center mt-5 fs-1">Trang web của chúng tôi hiện đang bận. Vui lòng quay lại sau!!!</p>
+	<div class="image-loading" >
+		<img class="lazyload" width="200px" height="200px" data-src="https://i.gifer.com/ZZ5H.gif" />
+	</div>
+	return;
+}
+@if (Model.HomeSlider.Any())
+{
+	@await Html.PartialAsync("HomeSlider", Model.HomeSlider)
+}
+@if (Model.FlashSale.Any())
+{
+	<div class="flashsale-block" style="display:none" id="flashsale">
 
-    <div class="box-scroll">
-        <div class="listproduct slider-flashsale owl-carousel" id="listproduct" data-size="36">
-        </div>
-    </div>
-</div>
+		@await Html.PartialAsync("FlashSale", Model.FlashSale)
+		<div class="box-scroll">
+			<div class="listproduct slider-flashsale owl-carousel" id="listproduct" data-size="36">
+			</div>
+		</div>
+	</div>
+}
 @await Html.PartialAsync("ChosseCate", Model.ChosseCate)
 @await Html.PartialAsync("ProductByCate", Model.ProductByCate)
 @await Html.PartialAsync("TekZone", Model.TekZone)
 @await Html.PartialAsync("ListBranch", Model.Stores)
 @await Html.PartialAsync("Privacy")
+
 @section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.filtering').slick({
-                slidesToShow: 4,
-                slidesToScroll: 2,
-                arrows: true,
-            });
-        });
-        //flashSale
-        document.addEventListener('DOMContentLoaded', function () {
-            var tabs = document.querySelectorAll('.timelineCount');
-            var endtime = document.querySelector('.countdown-timer');
-            //hidden  navLink when doesn't have item
-            const flashsaleField = document.querySelector('.flashsale-block');
-            let CountAllProduct = 0;
-            const allNavItem = document.querySelectorAll(".nav-item .nav-link");
-            allNavItem.forEach( function (navLink) {
-                const flashSaleId = navLink.getAttribute('flashsale-id');
-                const uriCount = urlRoot + "/trang-chu/" + flashSaleId;
-                CountProducts(uriCount, navLink);
-            });
-            //default flashsale active
-            const navActive = document.querySelector(".nav-link.active");
-            const flashSaleIdActive = navActive.getAttribute("flashsale-id");
-            const uri = urlRoot + "/trang-chu/" + flashSaleIdActive;
-            loadProducts(uri);
-            //choose flashsale 
-            $(document).ready(function () {
-                $(".nav-link").on("click", function (event) {
-                    event.preventDefault();
-                    const flashSaleId = $(this).attr("flashsale-id");
-                    const uriClick = urlRoot + "/trang-chu/" + flashSaleId;
-                    loadProducts(uriClick);
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.filtering').slick({
+				slidesToShow: 4,
+				slidesToScroll: 2,
+				arrows: true,
+			});
+		});
+		var formFS = document.getElementById("flashsale");
+		console.log("Form", formFS);
+		//flashSale
+		document.addEventListener('DOMContentLoaded', function () {
+			var tabs = document.querySelectorAll('.timelineCount');
+			var endtime = document.querySelector('.countdown-timer');
+			//hidden  navLink when doesn't have item
+			const flashsaleField = document.querySelector('.flashsale-block');
+			let CountAllProduct = 0;
+			const allNavItem = document.querySelectorAll(".nav-item .nav-link");
+			allNavItem.forEach(function (navLink) {
+				const flashSaleId = navLink.getAttribute('flashsale-id');
+				const uriCount = urlRoot + "/trang-chu/" + flashSaleId;
+				CountProducts(uriCount, navLink);
+			});
+			//default flashsale active
+			const navActive = document.querySelector(".nav-link.active");
+			const flashSaleIdActive = navActive.getAttribute("flashsale-id");
+			const uri = urlRoot + "/trang-chu/" + flashSaleIdActive;
+			loadProducts(uri);
+			//choose flashsale
+			$(document).ready(function () {
+				$(".nav-link").on("click", function (event) {
+					event.preventDefault();
+					const flashSaleId = $(this).attr("flashsale-id");
+					const uriClick = urlRoot + "/trang-chu/" + flashSaleId;
+					loadProducts(uriClick);
 
-                });
-            });
-            //function to load product by sale id
-            function loadProducts(uri) {
-                $.ajax({
-                    type: "GET",
-                    url: uri,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function (data) {
-                        const products = data.products;
-                        const countProduct = data.count;
-                        let flashsaleItemHtml = "";
-                        products.forEach(function (product) {
-                            let imageUrl = product.productImages.find(image => image.position === "1").imageURL || "defaultImage.jpg";
-                            function formatPrice(price) {
-                                return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                            };
-                            const price = formatPrice(product.price);
-                            const priceSale = formatPrice(product.priceSale);
-                            flashsaleItemHtml +=
-                                `<div class="item" data-id="322633" data-pos="1">
-                              <a href="" data-crm="1284930" class="remain_quantity main-contain">
-                                   <div class="item-img">
-                                     <img  alt="${product.productImages[2].imageName}" width="207" height="207" class="lazyload" data-src="${imageUrl}">
-                                    </div>
-                                    <h3>${product.productName}</h3>  <!-- Corrected closing tag -->
-                                    <strong class="price">
-                                                ${priceSale}
-                                     <span class="price-and-discount">
-                                          <label class="price-old black">
-                                                    ${price}
-                                           </label>
-                                     </span>
-                                    </strong>
-                                   <div class="fs-contain">
-                                         <img width="15" height="15" class="lazyload" data-src="https://www.topzone.vn/images/fs-iconfire.png" alt="icon flashsale">
-                                            <span class="rq_count fscount ">
-                                                <i style="width:80%;" class="fs-iconfire">
-                                                </i>
-                                                <b>Còn  ${product.quantity}</b>
-                                            </span>
-                                        </div>
-                                    </a>
-                        </div>`;
-                        });
-                        document.getElementById("listproduct").innerHTML = flashsaleItemHtml;
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        alert("check console to see proplem");
-                    }
-                });
-            };
-            //function to count product by sale id
-            function CountProducts(uri,navLink) {
-                $.ajax({
-                    type: "GET",
-                    url: uri,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function (data) {
-                        const countProduct = data.count;
-                        if (countProduct <= 0) {
-                            navLink.closest('.nav-item').style.display = 'none';
-                        } else {
-                            navLink.closest('.nav-item').style.display = 'block';
-                            CountAllProduct++;
-                        };
-                        checkFlashsaleFieldExisted();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        alert("check console to see proplem");
-                    }
-                });
-            };
-            //function to check sumProduct
-            function checkFlashsaleFieldExisted() {
-                if (CountAllProduct === 0) {
-                    flashsaleField.style.display = 'none';
-                } else {
-                    flashsaleField.style.display = 'block';
-                }
-            }
+				});
+			});
+			//function to load product by sale id
+			function loadProducts(uri) {
+				$.ajax({
+					type: "GET",
+					url: uri,
+					headers: {
+						'X-Requested-With': 'XMLHttpRequest'
+					},
+					success: function (data) {
+						const products = data.products;
+						const countProduct = data.count;
+						let flashsaleItemHtml = "";
+						products.forEach(function (product) {
+							let imageUrl = product.productImages.find(image => image.position === "1").imageURL || "defaultImage.jpg";
+							function formatPrice(price) {
+								return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+							};
+							const price = formatPrice(product.price);
+							const priceSale = formatPrice(product.priceSale);
+							flashsaleItemHtml +=
+								`<div class="item" data-id="322633" data-pos="1">
+									  <a href="" data-crm="1284930" class="remain_quantity main-contain">
+										   <div class="item-img">
+											 <img  alt="${product.productImages[2].imageName}" width="207" height="207" class="lazyload" data-src="${imageUrl}">
+											</div>
+											<h3>${product.productName}</h3>  <!-- Corrected closing tag -->
+											<strong class="price">
+														${priceSale}
+											 <span class="price-and-discount">
+												  <label class="price-old black">
+															${price}
+												   </label>
+											 </span>
+											</strong>
+										   <div class="fs-contain">
+												 <img width="15" height="15" class="lazyload" data-src="https://www.topzone.vn/images/fs-iconfire.png" alt="icon flashsale">
+													<span class="rq_count fscount ">
+														<i style="width:80%;" class="fs-iconfire">
+														</i>
+														<b>Còn  ${product.quantity}</b>
+													</span>
+												</div>
+											</a>
+								</div>`;
+						});
+						document.getElementById("listproduct").innerHTML = flashsaleItemHtml;
+					},
+					error: function (xhr, status, error) {
+						console.log(error);
+						alert("check console to see proplem");
+					}
+				});
+			};
+			//function to count product by sale id
 
-            var currentTimer = null;
-            //function to delete old current time
-            function clearCurrentTimer() {
-                if (currentTimer) {
-                    clearInterval(currentTimer);
-                    currentTimer = null;
-                }
-            }
+			function CountProducts(uri, navLink) {
+				$.ajax({
+					type: "GET",
+					url: uri,
+					headers: {
+						'X-Requested-With': 'XMLHttpRequest'
+					},
+					success: function (data) {
+						const countProduct = data.count;
+						if (countProduct <= 0) {
+							navLink.closest('.nav-item').style.display = 'none';
+						} else {
+							navLink.closest('.nav-item').style.display = 'block';
+							formFS.style.display = 'block';
+							CountAllProduct++;
+						};
+						checkFlashsaleFieldExisted();
+					},
+					error: function (xhr, status, error) {
+						console.log(error);
+						alert("check console to see proplem");
+					}
+				});
+			};
+			//function to check sumProduct
+			function checkFlashsaleFieldExisted() {
+				if (CountAllProduct === 0) {
+					formFS.style.display = 'none';
+				} else {
+					formFS.style.display = 'block';
+				}
+			}
 
-            // function to currentTimer
-            function startCountdown(activeTab) {
-                if (!activeTab) return;
-                clearCurrentTimer();
-                var dateCountDown = new Date(activeTab.getAttribute('data-countdown'));
-                var dateBegin = new Date(activeTab.getAttribute('data-begin'));
-                var timeDifference = dateCountDown - dateBegin;
-                var totalSeconds = Math.floor(timeDifference / 1000);
-                // function to update and display countdown time
-                function updateCountdown() {
-                    if (totalSeconds <= 0) {
-                        clearCurrentTimer();
-                        endtime.innerHTML = "Hết giờ!";
-                        return;
-                    }
-                    var days = Math.floor(totalSeconds / (24 * 60 * 60));
-                    var remainingSeconds = totalSeconds % (24 * 60 * 60);
-                    var hours = Math.floor(remainingSeconds / (60 * 60));
-                    remainingSeconds %= (60 * 60);
-                    var minutes = Math.floor(remainingSeconds / 60);
-                    var seconds = remainingSeconds % 60;
-                    hours = hours.toString().padStart(2, '0');
-                    minutes = minutes.toString().padStart(2, '0');
-                    seconds = seconds.toString().padStart(2, '0');
-                    endtime.innerHTML = `${days} ngày, ${hours} : ${minutes} : ${seconds}`;
-                    totalSeconds--;
-                }
-                // currentTimer call count every second
-                currentTimer = setInterval(updateCountdown, 1000);
-                updateCountdown();
-            }
-            tabs.forEach(function (tab) {
-                tab.addEventListener('click', function () {
-                    tabs.forEach(function (t) {
-                        t.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    startCountdown(this);
-                });
-            });
-            var activeTabOnLoad = document.querySelector('.timelineCount.active');
-            startCountdown(activeTabOnLoad);
-        });
-        //ListBranch
-        document.addEventListener("DOMContentLoaded", function () {
-            var toggleBtn = document.querySelector(".toggle-btn");
-            var countstore = document.querySelector(".count-store");
-            var viewmore = document.querySelector(".viewmore");
-            var cityList = document.querySelector(".city-list");
-            var sText = document.querySelector(".sText");
-            var storeList = document.getElementById("store-list");
+			var currentTimer = null;
+			//function to delete old current time
+			function clearCurrentTimer() {
+				if (currentTimer) {
+					clearInterval(currentTimer);
+					currentTimer = null;
+				}
+			}
 
-            toggleBtn.addEventListener("click", function () {
-                toggleBtn.classList.toggle("active");
-                cityList.style.display = (cityList.style.display === "none" || cityList.style.display === "") ? "block" : "none";
-            });
+			// function to currentTimer
+			function startCountdown(activeTab) {
+				if (!activeTab) return;
+				clearCurrentTimer();
+				var dateCountDown = new Date(activeTab.getAttribute('data-countdown'));
+				var dateBegin = new Date(activeTab.getAttribute('data-begin'));
+				var timeDifference = dateCountDown - dateBegin;
+				var totalSeconds = Math.floor(timeDifference / 1000);
+				// function to update and display countdown time
+				function updateCountdown() {
+					if (totalSeconds <= 0) {
+						clearCurrentTimer();
+						endtime.innerHTML = "Hết giờ!";
+						return;
+					}
+					var days = Math.floor(totalSeconds / (24 * 60 * 60));
+					var remainingSeconds = totalSeconds % (24 * 60 * 60);
+					var hours = Math.floor(remainingSeconds / (60 * 60));
+					remainingSeconds %= (60 * 60);
+					var minutes = Math.floor(remainingSeconds / 60);
+					var seconds = remainingSeconds % 60;
+					hours = hours.toString().padStart(2, '0');
+					minutes = minutes.toString().padStart(2, '0');
+					seconds = seconds.toString().padStart(2, '0');
+					endtime.innerHTML = `${days} ngày, ${hours} : ${minutes} : ${seconds}`;
+					totalSeconds--;
+				}
+				// currentTimer call count every second
+				currentTimer = setInterval(updateCountdown, 1000);
+				updateCountdown();
+			}
+			tabs.forEach(function (tab) {
+				tab.addEventListener('click', function () {
+					tabs.forEach(function (t) {
+						t.classList.remove('active');
+					});
+					this.classList.add('active');
+					startCountdown(this);
+				});
+			});
+			var activeTabOnLoad = document.querySelector('.timelineCount.active');
+			startCountdown(activeTabOnLoad);
+		});
+		//ListBranch
+		document.addEventListener("DOMContentLoaded", function () {
+			var toggleBtn = document.querySelector(".toggle-btn");
+			var countstore = document.querySelector(".count-store");
+			var viewmore = document.querySelector(".viewmore");
+			var cityList = document.querySelector(".city-list");
+			var sText = document.querySelector(".sText");
+			var storeList = document.getElementById("store-list");
 
-            var options = cityList.querySelectorAll(".option");
-            options.forEach(option => {
-                option.addEventListener("click", () => {
-                    var selectedCity = option.getAttribute("data-city");
-                    sText.innerText = selectedCity;
-                    cityList.style.display = "none";
-                    filterStoresByCity(selectedCity);
-                });
-            });
-            function filterStoresByCity(city) {
-                var stores = storeList.querySelectorAll(".store");
-                var count = 0;
-                stores.forEach(store => {
-                    if (store.getAttribute("data-city") === city || city === "Tất cả") {
-                        store.style.display = "block";
-                        count++;
-                    } else {
-                        store.style.display = "none";
-                    }
-                });
-                countstore.innerHTML = `Mở bán tại ${count} cửa hàng`;
-                viewmore.innerHTML = `Xem tất cả ${count} cửa hàng`;
-            }
-        });
+			toggleBtn.addEventListener("click", function () {
+				toggleBtn.classList.toggle("active");
+				cityList.style.display = (cityList.style.display === "none" || cityList.style.display === "") ? "block" : "none";
+			});
 
-    </script>
+			var options = cityList.querySelectorAll(".option");
+			options.forEach(option => {
+				option.addEventListener("click", () => {
+					var selectedCity = option.getAttribute("data-city");
+					sText.innerText = selectedCity;
+					cityList.style.display = "none";
+					filterStoresByCity(selectedCity);
+				});
+			});
+			function filterStoresByCity(city) {
+				var stores = storeList.querySelectorAll(".store");
+				var count = 0;
+				stores.forEach(store => {
+					if (store.getAttribute("data-city") === city || city === "Tất cả") {
+						store.style.display = "block";
+						count++;
+					} else {
+						store.style.display = "none";
+					}
+				});
+				countstore.innerHTML = `Mở bán tại ${count} cửa hàng`;
+				viewmore.innerHTML = `Xem tất cả ${count} cửa hàng`;
+			}
+		});
+
+	</script>
 }

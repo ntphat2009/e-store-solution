@@ -53,11 +53,11 @@ namespace Store.WebService.Services
             }
         }
 
-        public async Task<List<vmCategory>> GetAllCategory(int page, int pageSize)
+        public async Task<List<CategoryVM>> GetAllCategory(int page, int pageSize)
         {
             try
             {
-                var categories = new List<vmCategory>();
+                var categories = new List<CategoryVM>();
                 var uri = _categoryApi.GetAllCategory(page, pageSize);
                 var response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
@@ -68,7 +68,7 @@ namespace Store.WebService.Services
                     {
                         foreach (var category in apiResponse.result)
                         {
-                            categories.Add(new vmCategory
+                            categories.Add(new CategoryVM
                             {
                                 Id = category.Id,
                                 Name = category.Name,
@@ -91,11 +91,11 @@ namespace Store.WebService.Services
             }
             catch (Exception ex)
             {
-                return new List<vmCategory>();
+                return new List<CategoryVM>();
             }
         }
 
-        public async Task<vmCategory> GetCategoryByURL(string categoryUrl)
+        public async Task<CategoryVM> GetCategoryByURL(string categoryUrl)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace Store.WebService.Services
                     if (categoryresponse != null && categoryresponse.result != null)
                     {
                         var category = categoryresponse.result;
-                        return new vmCategory()
+                        return new CategoryVM()
                         {
                             Id = category.Id,
                             Name = category.Name,
@@ -124,18 +124,16 @@ namespace Store.WebService.Services
                         };
                     }
                 }
-                return new vmCategory();
+                return new CategoryVM();
             }
             catch
             {
-                return new vmCategory();
+                return new CategoryVM();
             }
         }
 
         public async Task<string> InsertOrUpdateCategory(CategoryDTO categoryDTO)
         {
-            try
-            {
                 //add category
                 var uri = _categoryApi.InsertOrUpdateCategory();
                 var jsonContent = JsonConvert.SerializeObject(categoryDTO);
@@ -153,11 +151,6 @@ namespace Store.WebService.Services
                     var result = content.message;
                     return result;
                 }
-            }
-            catch
-            {
-                return "404";
-            }
         }
     }
 }

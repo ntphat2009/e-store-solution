@@ -27,7 +27,7 @@ namespace Store.WebService.Services
         {
             try
             {
-                var uri = _imageApi.AddOrUpdateProductImage( productId);
+                var uri = _imageApi.AddOrUpdateProductImage(productId);
                 var jsonContent = JsonConvert.SerializeObject(imageDTO);
                 var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(uri, httpContent);

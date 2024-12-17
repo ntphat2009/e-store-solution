@@ -17,13 +17,13 @@ namespace Store.Web.Areas.Admin.Controllers
             _authenWebService = authenWebService;
 
         }
-        [Route("admin/thong-tin-dang-nhap")]
+        [Route("quan-tri-vien/thong-tin-dang-nhap")]
         public IActionResult Index()
         {
             return View();
         }
         [HttpPost]
-        [Route("admin/thong-tin-dang-nhap")]
+        [Route("quan-tri-vien/thong-tin-dang-nhap")]
         public async Task<IActionResult> Index(SignInDTO signInDTO)
         {
             var responseStatus = await _authenWebService.SignIn(signInDTO);
@@ -55,7 +55,7 @@ namespace Store.Web.Areas.Admin.Controllers
                 };
                 HttpContext.Session.SetString("jwtadmin", responseStatus);
                 //Response.Cookies.Append("jwtadmin", responseStatus, cookieOptions);
-                return RedirectToRoute("admin");
+                return RedirectToRoute("quan-tri-vien");
             }
         }
     }

@@ -12,12 +12,12 @@ namespace Store.Web.Controllers
 		{
 			_authenService = authenService;
 		}
-		[Route("nguoi-dung/dang-nhap")]
-		public async Task<IActionResult> Index()
+		[Route("nguoi-dung/thong-tin-dang-nhap")]
+		public async Task<IActionResult> SignIn()
 		{
 			return View();
 		}
-
+		[HttpPost]
 		[Route("nguoi-dung/thong-tin-dang-nhap")]
 		public async Task<IActionResult> SignIn(SignInDTO signInDTO)
 		{

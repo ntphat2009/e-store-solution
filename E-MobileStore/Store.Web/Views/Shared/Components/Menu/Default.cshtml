@@ -1,12 +1,15 @@
 ﻿@* Views/Shared/_Header.cshtml *@
-@model IEnumerable<Store.WebService.ViewModels.vmCategory>;
+@model IEnumerable<Store.WebService.ViewModels.CategoryVM>;
 <ul class="menu" style="display: flex;flex-wrap: wrap;">
 	@foreach (var menucate in Model)
 	{
-		<li class="menu-ip " style="flex:auto">
-			<a href="@Url.Action("Index", "Category", new { categoryUrl = menucate.CategoryUrl })">
-				<span>@menucate.Name</span>
-			</a>
-		</li>
+		if (menucate.Position == "home")
+		{
+			<li class="menu-ip " style="flex:auto">
+				<a href="@Url.Action("Index", "Category", new { categoryUrl = menucate.CategoryUrl })">
+					<span>@menucate.Name</span>
+				</a>
+			</li>
+		}
 	}
 </ul>

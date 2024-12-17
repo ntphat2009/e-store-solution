@@ -1,4 +1,4 @@
-﻿@model Store.WebService.ViewModels.vmProduct
+﻿@model Store.WebService.ViewModels.ProductVM
 @using static Store.Web.Utility.ProductsUtilities
 @if (Model != null)
 {
@@ -19,7 +19,7 @@
                                             {
                                                 <div class="owl-item @(index) active" style="width: 600px;">
                                                     <div class="item-img" data-thumb="@image.ImageURL">
-                                                        <img class="owl-lazy" title="@image.ImageName" alt="@image.ImageName" data-src="@image.ImageURL" width="650" height="650" src="@image.ImageURL" style="opacity: 1;">
+                                                        <img class="owl-lazy lazyload"  title="@image.ImageName" alt="@image.ImageName" data-src="@Url.Content("~/uploads/images/" + @image.ImageURL)" width="650" height="650" style="opacity: 1;">
                                                     </div>
                                                 </div>
                                             }
@@ -27,7 +27,7 @@
                                             {
                                                 <div class="owl-item @(index) " style="width: 600px;">
                                                     <div class="item-img" data-thumb="@image.ImageURL">
-                                                        <img class="owl-lazy" title="@image.ImageName" alt="@image.ImageName" data-src="@image.ImageURL" width="650" height="650" src="@image.ImageURL" style="opacity: 1;">
+                                                        <img class="owl-lazy lazyload" title="@image.ImageName" alt="@image.ImageName" data-src="@Url.Content("~/uploads/images/" + @image.ImageURL)" width="650" height="650" src="@image.ImageURL" style="opacity: 1;">
                                                     </div>
                                                 </div>
                                             }
@@ -37,7 +37,7 @@
                                 <div class="slider-nav ">
                                     @foreach (var image in Model.ProductImages)
                                     {
-                                        <img class="theImg " style="max-width: 100px; max-height:100px; background-color: white;border-radius: 10px;" src="@image.ImageURL" alt="@image.ImageName" title="@image.ImageName">
+                                            <img class="theImg lazyload" style="max-width: 100px; max-height:100px; background-color: white;border-radius: 10px;" data-src="@Url.Content("~/uploads/images/" + @image.ImageURL)" alt="@image.ImageName" title="@image.ImageName">
                                     }
                                 </div>
                                 <div class="video-sp"></div>

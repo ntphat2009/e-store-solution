@@ -1,30 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Web.ViewsModel;
+using Store.Domain.Entities;
+using Store.WebService.Services;
 using Store.WebService.Services.Interfaces;
+using Store.WebService.ViewModels;
 
 namespace Store.Web.Controllers
 {
     public class ProductDetailController : Controller
     {
-        private readonly IProductWebService _productWebService;
+        private readonly IProductDetailViewService _productDetailViewService;
+        private readonly ILogger<ProductDetailController> _logger;
 
-        public ProductDetailController(IProductWebService productWebService)
+        public ProductDetailController(ILogger<ProductDetailController> logger, IProductDetailViewService productDetailViewService)
         {
-            _productWebService = productWebService;
+            _productDetailViewService = productDetailViewService;
+            _logger = logger;
 
         }
         [Route("{categoryUrl}/{productUrl}")]
-        public async Task<IActionResult> Index(string productUrl,string categoryUrl, string? sortBy)
+        public async Task<IActionResult> Index(string productUrl, string categoryUrl, string? sortBy)
         {
-            var product = await _productWebService.GetProductDetail(productUrl);
-            ViewBag.productName=product.ProductName;
-            var suggestProduct = await _productWebService.GetProductListByCateUrl(categoryUrl, 1, 10, sortBy);
-            var result = new DetailProductVM
+            try
             {
-                Product = product,
-                SuggestProduct = suggestProduct
-            };
-            return PartialView("/Views/ProductDetail/Index.cshtml", result);
+                var productDetailData = new ProductDetailVM();
+                productDetailData = await _productDetailViewService.GetDetailProductDataAsync(productUrl, categoryUrl, sortBy);
+                ViewBag.productName = productDetailData.Product?.ProductName;
+                return PartialView("/Views/ProductDetail/Index.cshtml", productDetailData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error to get data");
+                return BadRequest();
+            }
         }
         public IActionResult IntroDetail()
         {
@@ -37,6 +44,6 @@ namespace Store.Web.Controllers
         public IActionResult SuggestProduct()
         {
             return PartialView("/Views/ProductDetail/SuggestProduct.cshtml");
-        }
+        }   
     }
 }

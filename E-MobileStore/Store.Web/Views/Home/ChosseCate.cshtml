@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Store.WebService.ViewModels.vmCategory>;
+﻿@model IEnumerable<Store.WebService.ViewModels.CategoryVM>;
 @{
     ViewData["Title"] = "ChosseCate";
 }
@@ -8,14 +8,24 @@
     {
         @foreach(var category in Model)
         {
-            <li>
-                <a href="@Url.Action("Index", "Category", new { categoryUrl = category.CategoryUrl })">
-                    <div class="img-catesp cateiphone">
-                        <img class="lazyload" data-src="@category.ImageURL" alt="@category.Name" width="102" height="112">
-                    </div>
-                    <span>@category.Name</span>
-                </a>
-            </li>
+            if (category.Position == "home")
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Category", new { categoryUrl = category.CategoryUrl })">
+                        <div class="img-catesp cateiphone">
+                            <img class="lazyload" data-src="@Url.Content("~/uploads/images/" + category.ImageURL)" alt="@category.Name" width="102" height="112">
+                        </div>
+                        <span>@category.Name</span>
+                    </a>
+                </li>
+            }
         }
+    }
+    else
+    {
+        <p class="count-store">Danh sách ngành hàng hiện không khả dụng</p>
+        <div class="image-loading">
+            <img width="100px" height="100px" class="lazyload" data-src="https://i.gifer.com/ZZ5H.gif" />
+        </div>
     }
 </ul>

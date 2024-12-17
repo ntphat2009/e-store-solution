@@ -1,4 +1,4 @@
-﻿@model Store.WebService.ViewModels.vmProduct
+﻿@model Store.WebService.ViewModels.ProductVM
 @using static Store.Web.Utility.ProductsUtilities
 @{
 	ViewData["Title"] = "Chi tiết";
@@ -21,7 +21,7 @@
 										@foreach (var image in Model.ProductImages)
 										{
 											<div class="product-tab-list tab-pane fade @(i == 0 ? "active in" : "")" id="single-tab@(i)">
-												<img src="@image.ImageURL" alt="" />
+												<img class="lazyload" data-src="@Url.Content("~/uploads/images/"+@image.ImageURL)" alt="" />
 											</div>
 											i++;
 										}
@@ -30,7 +30,7 @@
 										@foreach (var image in Model.ProductImages)
 										{
 											<li class="@(j == 0 ? "active" : "")">
-												<a href="#single-tab@(j)"><img src="@image.ImageURL" alt="" /></a>
+												<a href="#single-tab@(j)"><img class="lazyload" data-src="@image.ImageURL" alt="" /></a>
 											</li>
 											j++;
 										}

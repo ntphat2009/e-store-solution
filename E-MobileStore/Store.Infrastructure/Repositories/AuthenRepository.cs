@@ -102,7 +102,7 @@ namespace Store.Infrastructure.Repositories
 			}
 			var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
 			var encodeToken = HttpUtility.UrlEncode(token);
-			var confirmationLink = $"https://localhost:7031/api/Authen/ConfirmEmail?token={encodeToken}&email={applicationUser.Email}";
+			var confirmationLink = $"https://localhost:7031/api/Authentications/ConfirmEmail?token={encodeToken}&email={applicationUser.Email}";
 			var message = new Message(new string[] { user.Email }, "Liên kết xác thực email", confirmationLink);
 			_emailSender.SendEmail(message);
 			return result;

@@ -1,13 +1,16 @@
 ﻿@using static Store.Web.StaticUtilityClass.NewsUtilities
-@model IEnumerable<Store.WebService.ViewModels.vmNews>
+@model IEnumerable<Store.WebService.ViewModels.NewsVM>
 @{
 }
 <div class="box-slide">
-    <a href="/tekzone" class="logo-cate  "><h2>TekZone</h2></a>
-    <div class="slide-topnews owl-carousel owl-theme owl-loaded filtering" data-slick='{"slidesToShow": 3, "slidesToScroll": 3}' data-block="TekZone">
-        @if (Model != null)
-        {
-            var sortNews = Model.OrderByDescending(x => x.CreatedDate).Take(6).ToList();
+    <a href="/tekzone" class="logo-cate ">
+        <h2>TekZone</h2></a>
+    @if (Model != null && Model.Any())
+    {
+        var sortNews = Model.OrderByDescending(x => x.CreatedDate).Take(6).ToList();
+
+        <div class="slide-topnews owl-carousel owl-theme owl-loaded filtering" data-slick='{"slidesToShow": 3, "slidesToScroll": 3}' data-block="TekZone">
+
             @foreach (var news in sortNews)
             {
                 <div class="owl-item" style="width: 393.333px; margin-right: 10px;">
@@ -22,8 +25,16 @@
                     </div>
                 </div>
             }
-        }
-    </div>
+
+        </div>
+    }
+    else
+    {
+        <p class="text-danger text-center fs-5">Danh sách tin tức hiện không khả dụng</p>
+        <div class="image-loading">
+            <img class="lazyload" width="100px" height="100px" data-src="https://i.gifer.com/ZZ5H.gif" />
+        </div>
+    }
 </div>
 @section Scripts {
     <script type="text/javascript">
